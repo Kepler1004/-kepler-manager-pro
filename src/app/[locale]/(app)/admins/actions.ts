@@ -29,8 +29,9 @@ export async function createUserAccount(formData: FormData) {
 
   // 트리거가 만든 프로필을 역할/이름으로 갱신 (없으면 생성)
   const id = data.user!.id;
+  const phone = String(formData.get('phone') ?? '').trim() || null;
   const { error: e2 } = await admin.from('profiles')
-    .upsert({ id, email, full_name: fullName, role }, { onConflict: 'id' });
+    .upsert({ id, email, full_name: fullName, phone, role }, { onConflict: 'id' });
   if (e2) throw new Error(e2.message);
   revalidatePath('/admins');
 }
@@ -78,6 +79,37 @@ export async function updateTeacherPayroll(formData: FormData) {
     allowance: Number(formData.get('allowance') ?? 0),
     payroll_config,
   }).eq('id', id);
+  if (error) throw new Error(error.message);
+  revalidatePath('/admins');
+}
+
+// 정보 수정: 이름/이메일/연락처 (이메일은 로그인 계정에도 반영)
+export async function updateUserInfo(formData: FormData) {
+  await ensureMaster();
+  const id = String(formData.get('id'));
+  const full_name = String(formData.get('full_name') ?? '').trim();
+  const email = String(formData.get('email') ?? '').trim();
+  const phone = String(formData.get('phone') ?? '').trim() || null;
+  if (!id || !email) throw new Error('이메일은 필수입니다.');
+  const admin = createAdminClient();
+  // 로그인(auth) 이메일 변경
+  const { error: eAuth } = await admin.auth.admin.updateUserById(id, { email });
+  if (eAuth) throw new Error(eAuth.message);
+  const { error } = await admin.from('profiles').update({ full_name, email, phone }).eq('id', id);
+  if (error) throw new Error(error.message);
+  revalidatePath('/admins');
+}
+
+// 완전 삭제: 로그인 계정 + 프로필 제거 (담당 수업은 자동 담당해제, 급여/명세서는 함께 삭제)
+export async function deleteUserAccount(formData: FormData) {
+  await ensureMaster();
+  const id = String(formData.get('id'));
+  const me = await getCurrentProfile();
+  if (id === me?.id) throw new Error('본인 계정은 삭제할 수 없습니다.');
+  const admin = createAdminClient();
+  // FK 차단 방지: 캘린더 이벤트 먼저 제거
+  await admin.from('calendar_events').delete().eq('teacher_id', id);
+  const { error } = await admin.auth.admin.deleteUser(id);
   if (error) throw new Error(error.message);
   revalidatePath('/admins');
 }

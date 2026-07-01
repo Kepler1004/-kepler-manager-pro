@@ -172,7 +172,11 @@
     "active_yes": "启用",
     "active_no": "停用",
     "account_hint": "该账号使用此邮箱/密码登录。教师登录后可修改密码。",
-    "payroll_btn": "薪资设置"
+    "payroll_btn": "薪资设置",
+    "phone": "联系方式",
+    "edit_info": "编辑",
+    "delete_account": "删除",
+    "confirm_delete_account": "永久删除该账号？登录账号和工资单将一并删除，且无法恢复。"
   },
   "holiday": {
     "title": "公休日管理",

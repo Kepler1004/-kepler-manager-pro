@@ -172,7 +172,11 @@
     "active_yes": "Active",
     "active_no": "Inactive",
     "account_hint": "The account logs in with this email/password. Teachers can change their password after login.",
-    "payroll_btn": "Payroll"
+    "payroll_btn": "Payroll",
+    "phone": "Phone",
+    "edit_info": "Edit",
+    "delete_account": "Delete",
+    "confirm_delete_account": "Permanently delete this account? Login and payslips will also be removed. This cannot be undone."
   },
   "holiday": {
     "title": "Holidays",

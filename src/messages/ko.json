@@ -172,7 +172,11 @@
     "active_yes": "활성",
     "active_no": "비활성",
     "account_hint": "생성된 계정은 이 이메일/비밀번호로 로그인합니다. 선생님은 로그인 후 비밀번호를 바꿀 수 있습니다.",
-    "payroll_btn": "급여설정"
+    "payroll_btn": "급여설정",
+    "phone": "연락처",
+    "edit_info": "정보수정",
+    "delete_account": "삭제",
+    "confirm_delete_account": "이 계정을 완전히 삭제할까요? 로그인 계정과 급여 명세서가 함께 삭제됩니다. 되돌릴 수 없습니다."
   },
   "holiday": {
     "title": "공휴일 관리",
