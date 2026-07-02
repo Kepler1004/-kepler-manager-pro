@@ -92,7 +92,7 @@ export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P
                   ) : <span className={p.is_active ? 'text-emerald-600' : 'text-slate-400'}>{p.is_active ? t('active_yes') : t('active_no')}</span>}
                 </td>
                 <td className="px-4 py-2 text-right whitespace-nowrap">
-                  {(p.role === 'teacher' || p.role === 'admin') && (
+                  {(p.role === 'teacher' || p.role === 'admin' || p.role === 'admin_b') && (
                     <button onClick={() => { setPayrollId(payrollId === p.id ? null : p.id); setEditId(null); }} className="mr-3 text-indigo-600">
                       {t('payroll_btn')}
                     </button>
