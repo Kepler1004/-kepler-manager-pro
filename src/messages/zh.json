@@ -16,7 +16,8 @@
     "english_pro": "English Pro",
     "math_pro": "Math Pro",
     "logout": "退出登录",
-    "holidays": "公休日"
+    "holidays": "公休日",
+    "timetable": "课程表"
   },
   "common": {
     "save": "保存",
@@ -53,7 +54,8 @@
     "this_month_invoices": "本月账单",
     "unpaid": "未付",
     "teachers": "教师",
-    "students_active": "在读学生"
+    "students_active": "在读学生",
+    "search_student": "搜索学生姓名..."
   },
   "invoice": {
     "title": "学费账单",
@@ -135,7 +137,14 @@
     "active": "在读",
     "inactive": "退学",
     "empty": "暂无学生。",
-    "confirm_delete": "确定删除该学生？"
+    "confirm_delete": "确定删除该学生？",
+    "counseling": "咨询记录",
+    "note_date": "日期",
+    "note_content": "内容",
+    "note_placeholder": "请输入咨询内容",
+    "note_add": "添加记录",
+    "no_notes": "暂无咨询记录。",
+    "upload_photo": "上传照片"
   },
   "klass": {
     "add": "添加课程",
@@ -205,5 +214,8 @@
     "save": "保存",
     "cancel": "取消",
     "google_calendar_id": "谷歌日历ID (教师)"
+  },
+  "timetable": {
+    "print": "打印"
   }
 }

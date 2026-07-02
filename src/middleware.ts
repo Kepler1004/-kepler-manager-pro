@@ -7,7 +7,7 @@ const handleIntl = createIntlMiddleware(routing);
 
 // 로그인 필요한 앱 섹션
 const APP_SECTIONS = [
-  'dashboard', 'students', 'classes', 'pricing', 'salaries',
+  'dashboard', 'students', 'classes', 'timetable', 'pricing', 'salaries',
   'absences', 'holidays', 'invoices', 'payslips', 'admins',
 ];
 

@@ -2,6 +2,7 @@
 import { Fragment, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import StudentForm, { type StudentRow } from '@/components/StudentForm';
+import { Link } from '@/i18n/routing';
 import { deleteStudent } from './actions';
 
 export default function StudentsClient({ students }: { students: StudentRow[] }) {
@@ -39,7 +40,7 @@ export default function StudentsClient({ students }: { students: StudentRow[] })
             {students.map((s) => (
               <Fragment key={s.id}>
                 <tr className="border-t border-slate-100">
-                  <td className="px-4 py-2">{s.name}{s.name_en ? ` (${s.name_en})` : ''}</td>
+                  <td className="px-4 py-2"><Link href={`/students/${s.id}`} className="text-indigo-600 hover:underline">{s.name}</Link>{s.name_en ? ` (${s.name_en})` : ''}</td>
                   <td className="px-4 py-2">{s.school}</td>
                   <td className="px-4 py-2">{s.grade}</td>
                   <td className="px-4 py-2">{s.guardian_email}</td>

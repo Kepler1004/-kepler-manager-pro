@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
+import StudentSearch from '@/components/StudentSearch';
 
 export default async function Dashboard() {
   const t = await getTranslations();
@@ -21,7 +22,8 @@ export default async function Dashboard() {
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold">{t('nav.dashboard')}</h1>
-      <p className="mb-6 text-slate-500">{t('dashboard.welcome', { name: user?.email ?? 'Kepler' })}</p>
+      <p className="mb-4 text-slate-500">{t('dashboard.welcome', { name: user?.email ?? 'Kepler' })}</p>
+      <StudentSearch />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card label={t('dashboard.students_active')} value={students ?? 0} />
         <Card label={t('dashboard.teachers')} value={teachers ?? 0} />

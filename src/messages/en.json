@@ -16,7 +16,8 @@
     "english_pro": "English Pro",
     "math_pro": "Math Pro",
     "logout": "Log out",
-    "holidays": "Holidays"
+    "holidays": "Holidays",
+    "timetable": "Timetable"
   },
   "common": {
     "save": "Save",
@@ -53,7 +54,8 @@
     "this_month_invoices": "This month's invoices",
     "unpaid": "Unpaid",
     "teachers": "Teachers",
-    "students_active": "Active students"
+    "students_active": "Active students",
+    "search_student": "Search student name..."
   },
   "invoice": {
     "title": "Tuition Invoice",
@@ -135,7 +137,14 @@
     "active": "Active",
     "inactive": "Inactive",
     "empty": "No students yet.",
-    "confirm_delete": "Delete this student?"
+    "confirm_delete": "Delete this student?",
+    "counseling": "Counseling notes",
+    "note_date": "Date",
+    "note_content": "Note",
+    "note_placeholder": "Enter counseling note",
+    "note_add": "Add note",
+    "no_notes": "No counseling notes.",
+    "upload_photo": "Upload photo"
   },
   "klass": {
     "add": "Add class",
@@ -205,5 +214,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "google_calendar_id": "Google Calendar ID (teacher)"
+  },
+  "timetable": {
+    "print": "Print"
   }
 }

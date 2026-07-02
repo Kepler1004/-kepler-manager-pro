@@ -16,7 +16,8 @@
     "english_pro": "English Pro",
     "math_pro": "Math Pro",
     "logout": "로그아웃",
-    "holidays": "공휴일"
+    "holidays": "공휴일",
+    "timetable": "시간표"
   },
   "common": {
     "save": "저장",
@@ -53,7 +54,8 @@
     "this_month_invoices": "이번 달 고지서",
     "unpaid": "미납",
     "teachers": "선생님",
-    "students_active": "재원생"
+    "students_active": "재원생",
+    "search_student": "학생 이름 검색..."
   },
   "invoice": {
     "title": "원비 납부 고지서",
@@ -135,7 +137,14 @@
     "active": "재원",
     "inactive": "퇴원",
     "empty": "등록된 학생이 없습니다.",
-    "confirm_delete": "정말 삭제할까요?"
+    "confirm_delete": "정말 삭제할까요?",
+    "counseling": "상담 기록",
+    "note_date": "날짜",
+    "note_content": "상담 내용",
+    "note_placeholder": "상담 내용을 입력하세요",
+    "note_add": "기록 추가",
+    "no_notes": "상담 기록이 없습니다.",
+    "upload_photo": "사진 업로드"
   },
   "klass": {
     "add": "수업 추가",
@@ -205,5 +214,8 @@
     "save": "저장",
     "cancel": "취소",
     "google_calendar_id": "구글 캘린더 ID (선생님)"
+  },
+  "timetable": {
+    "print": "인쇄"
   }
 }

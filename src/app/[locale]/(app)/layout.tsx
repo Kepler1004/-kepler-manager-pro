@@ -5,7 +5,7 @@ import SignOutButton from '@/components/SignOutButton';
 import { createClient } from '@/lib/supabase-server';
 
 const NAV = [
-  ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'],
+  ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'], ['timetable', '/timetable'],
   ['pricing', '/pricing'], ['salaries', '/salaries'], ['absences', '/absences'],
   ['invoices', '/invoices'], ['payslips', '/payslips'], ['admins', '/admins'],
 ] as const;
