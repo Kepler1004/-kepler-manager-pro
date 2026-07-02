@@ -89,7 +89,7 @@ export async function generatePayslipForTeacher(teacherId: string, year: number,
 
 export async function generatePayslipsForPeriod(year: number, month: number) {
   const db = createAdminClient();
-  const { data: teachers, error } = await db.from('profiles').select('id').in('role', ['teacher', 'admin']).eq('is_active', true);
+  const { data: teachers, error } = await db.from('profiles').select('id').in('role', ['teacher', 'admin', 'admin_b']).eq('is_active', true);
   if (error) throw error;
   const results = [];
   for (const t of teachers ?? []) {

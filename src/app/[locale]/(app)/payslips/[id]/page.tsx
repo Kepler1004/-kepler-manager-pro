@@ -1,3 +1,4 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
@@ -5,6 +6,7 @@ import { createClient } from '@/lib/supabase-server';
 import PayslipDetailClient from './ui';
 
 export default async function PayslipDetail({ params }: { params: Promise<{ id: string }> }) {
+  await requireSection('payslips');
   const { id } = await params;
   const t = await getTranslations();
   const db = await createClient();

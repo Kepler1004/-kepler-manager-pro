@@ -1,3 +1,4 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
@@ -7,6 +8,7 @@ import InvoiceSend from './send';
 const DOW = ['일', '월', '화', '수', '목', '금', '토'];
 
 export default async function InvoiceDetail({ params }: { params: Promise<{ id: string }> }) {
+  await requireSection('invoices');
   const { id } = await params;
   const t = await getTranslations();
   const db = await createClient();

@@ -1,8 +1,10 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import ClassesClient from './ui';
 
 export default async function ClassesPage() {
+  await requireSection('classes');
   const t = await getTranslations();
   const db = await createClient();
 
@@ -10,7 +12,7 @@ export default async function ClassesPage() {
     await Promise.all([
       db.from('classes').select('id, name, subject_id, teacher_id, day_of_week, days, start_time, end_time, sessions_per_week, session_price, room, is_active').order('day_of_week'),
       db.from('subjects').select('id, name').order('name'),
-      db.from('profiles').select('id, full_name, email').eq('role', 'teacher').eq('is_active', true),
+      db.from('profiles').select('id, full_name, email').in('role', ['teacher','admin','admin_b','master']).eq('is_active', true),
       db.from('students').select('id, name').eq('status', 'active').order('name'),
       db.from('teacher_salaries').select('class_id, teacher_id, rate_per_session'),
       db.from('enrollments').select('class_id, student_id, status').eq('status', 'active'),

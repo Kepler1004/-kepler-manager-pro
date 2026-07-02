@@ -17,7 +17,8 @@
     "math_pro": "Math Pro",
     "logout": "退出登录",
     "holidays": "公休日",
-    "timetable": "每周课程表"
+    "timetable": "每周课程表",
+    "vacations": "休假管理"
   },
   "common": {
     "save": "保存",
@@ -108,8 +109,9 @@
     "sync_done": "已登记 {n} (事件 {e})"
   },
   "roles": {
-    "master": "总管理员",
-    "admin": "管理员",
+    "master": "主账户",
+    "admin": "管理员A",
+    "admin_b": "管理员B",
     "teacher": "教师"
   },
   "auth": {
@@ -216,6 +218,22 @@
     "google_calendar_id": "谷歌日历ID (教师)"
   },
   "timetable": {
-    "print": "打印"
+    "print": "打印",
+    "students_unit": "名"
+  },
+  "vacation": {
+    "note": "{year}年休假情况(已用 / 总天数)。",
+    "person": "对象",
+    "role": "角色",
+    "used": "已用",
+    "total": "总休假",
+    "remaining": "剩余",
+    "set_total": "总休假天数",
+    "start": "开始",
+    "end": "结束",
+    "days": "天数",
+    "reason": "事由",
+    "period": "期间",
+    "empty": "暂无休假记录。"
   }
 }

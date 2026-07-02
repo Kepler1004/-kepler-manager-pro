@@ -1,8 +1,10 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import StudentSearch from '@/components/StudentSearch';
 
 export default async function Dashboard() {
+  await requireSection('dashboard');
   const t = await getTranslations();
   const db = await createClient();
   const { data: { user } } = await db.auth.getUser();

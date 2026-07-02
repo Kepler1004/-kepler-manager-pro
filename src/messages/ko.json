@@ -17,7 +17,8 @@
     "math_pro": "Math Pro",
     "logout": "로그아웃",
     "holidays": "공휴일",
-    "timetable": "주간 시간표"
+    "timetable": "주간 시간표",
+    "vacations": "휴가 관리"
   },
   "common": {
     "save": "저장",
@@ -109,7 +110,8 @@
   },
   "roles": {
     "master": "마스터",
-    "admin": "관리자",
+    "admin": "관리자A",
+    "admin_b": "관리자B",
     "teacher": "선생님"
   },
   "auth": {
@@ -216,6 +218,22 @@
     "google_calendar_id": "구글 캘린더 ID (선생님)"
   },
   "timetable": {
-    "print": "인쇄"
+    "print": "인쇄",
+    "students_unit": "명"
+  },
+  "vacation": {
+    "note": "{year}년 휴가 현황 (사용일수 / 총 휴가일수).",
+    "person": "대상",
+    "role": "역할",
+    "used": "사용",
+    "total": "총 휴가",
+    "remaining": "잔여",
+    "set_total": "총 휴가일수",
+    "start": "시작일",
+    "end": "종료일",
+    "days": "일수",
+    "reason": "사유",
+    "period": "기간",
+    "empty": "등록된 휴가가 없습니다."
   }
 }

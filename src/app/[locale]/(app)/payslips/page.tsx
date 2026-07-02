@@ -1,8 +1,10 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import PayslipsClient from './ui';
 
 export default async function PayslipsPage({ searchParams }: { searchParams: Promise<{ y?: string; m?: string }> }) {
+  await requireSection('payslips');
   const t = await getTranslations();
   const sp = await searchParams;
   const now = new Date();

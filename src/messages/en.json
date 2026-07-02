@@ -17,7 +17,8 @@
     "math_pro": "Math Pro",
     "logout": "Log out",
     "holidays": "Holidays",
-    "timetable": "Weekly Timetable"
+    "timetable": "Weekly Timetable",
+    "vacations": "Leave"
   },
   "common": {
     "save": "Save",
@@ -109,7 +110,8 @@
   },
   "roles": {
     "master": "Master",
-    "admin": "Admin",
+    "admin": "Admin A",
+    "admin_b": "Admin B",
     "teacher": "Teacher"
   },
   "auth": {
@@ -216,6 +218,22 @@
     "google_calendar_id": "Google Calendar ID (teacher)"
   },
   "timetable": {
-    "print": "Print"
+    "print": "Print",
+    "students_unit": ""
+  },
+  "vacation": {
+    "note": "{year} leave status (used / total).",
+    "person": "Person",
+    "role": "Role",
+    "used": "Used",
+    "total": "Total",
+    "remaining": "Remaining",
+    "set_total": "Total days",
+    "start": "Start",
+    "end": "End",
+    "days": "Days",
+    "reason": "Reason",
+    "period": "Period",
+    "empty": "No leave records."
   }
 }

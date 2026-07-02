@@ -1,6 +1,8 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 export default async function Page() {
+  await requireSection('pricing');
   const t = await getTranslations();
   return (
     <div>

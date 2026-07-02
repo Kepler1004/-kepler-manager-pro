@@ -36,6 +36,7 @@ export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P
             <select name="role" defaultValue="teacher" className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
               <option value="teacher">{tr('teacher')}</option>
               <option value="admin">{tr('admin')}</option>
+              <option value="admin_b">{tr('admin_b')}</option>
             </select></label>
           <label className="block"><span className="mb-1 block text-xs text-slate-500">{t('email')} *</span>
             <input name="email" type="email" required className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
@@ -72,6 +73,7 @@ export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P
                         className="rounded-md border border-slate-300 px-2 py-1">
                         <option value="master">{tr('master')}</option>
                         <option value="admin">{tr('admin')}</option>
+                        <option value="admin_b">{tr('admin_b')}</option>
                         <option value="teacher">{tr('teacher')}</option>
                       </select>
                       {p.id !== meId && <button className="rounded bg-slate-900 px-2 py-1 text-xs text-white">{t('save')}</button>}

@@ -1,13 +1,11 @@
 import { getTranslations } from 'next-intl/server';
-import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase-server';
-import { getCurrentProfile, isStaff } from '@/lib/guards';
+import { requireSection } from '@/lib/guards';
 import AdminsClient from './ui';
 
 export default async function AdminsPage() {
   const t = await getTranslations();
-  const me = await getCurrentProfile();
-  if (!isStaff(me?.role)) redirect('/dashboard');
+  const me = await requireSection('admins');
 
   const db = await createClient();
   const { data: profiles } = await db

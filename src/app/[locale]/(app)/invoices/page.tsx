@@ -1,9 +1,11 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import InvoiceActions from './actions';
 import { Link } from '@/i18n/routing';
 
 export default async function InvoicesPage() {
+  await requireSection('invoices');
   const t = await getTranslations();
   const db = await createClient();
   const { data: invoices } = await db

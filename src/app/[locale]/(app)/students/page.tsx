@@ -1,8 +1,10 @@
+import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import StudentsClient from './ui';
 
 export default async function StudentsPage() {
+  await requireSection('students');
   const t = await getTranslations();
   const db = await createClient();
   const { data: students } = await db
