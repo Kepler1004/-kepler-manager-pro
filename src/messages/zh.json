@@ -6,7 +6,7 @@
   "nav": {
     "dashboard": "仪表板",
     "students": "学生",
-    "classes": "课程 / 时间表",
+    "classes": "课程管理",
     "pricing": "学费单价",
     "salaries": "教师薪资",
     "absences": "预约请假",
@@ -17,7 +17,7 @@
     "math_pro": "Math Pro",
     "logout": "退出登录",
     "holidays": "公休日",
-    "timetable": "课程表"
+    "timetable": "每周课程表"
   },
   "common": {
     "save": "保存",

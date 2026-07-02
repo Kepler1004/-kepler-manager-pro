@@ -6,7 +6,7 @@
   "nav": {
     "dashboard": "대시보드",
     "students": "학생",
-    "classes": "수업/시간표",
+    "classes": "수업 관리",
     "pricing": "수업료 단가",
     "salaries": "선생님 급여",
     "absences": "사전 결석",
@@ -17,7 +17,7 @@
     "math_pro": "Math Pro",
     "logout": "로그아웃",
     "holidays": "공휴일",
-    "timetable": "시간표"
+    "timetable": "주간 시간표"
   },
   "common": {
     "save": "저장",

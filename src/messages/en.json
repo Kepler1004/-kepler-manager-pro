@@ -6,7 +6,7 @@
   "nav": {
     "dashboard": "Dashboard",
     "students": "Students",
-    "classes": "Classes / Timetable",
+    "classes": "Classes",
     "pricing": "Tuition Rates",
     "salaries": "Teacher Salaries",
     "absences": "Planned Absences",
@@ -17,7 +17,7 @@
     "math_pro": "Math Pro",
     "logout": "Log out",
     "holidays": "Holidays",
-    "timetable": "Timetable"
+    "timetable": "Weekly Timetable"
   },
   "common": {
     "save": "Save",
