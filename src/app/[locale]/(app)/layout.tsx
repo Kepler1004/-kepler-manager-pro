@@ -5,9 +5,10 @@ import SignOutButton from '@/components/SignOutButton';
 import { createClient } from '@/lib/supabase-server';
 
 const NAV = [
-  ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'], ['timetable', '/timetable'],
-  ['pricing', '/pricing'], ['salaries', '/salaries'], ['absences', '/absences'],
-  ['invoices', '/invoices'], ['payslips', '/payslips'], ['admins', '/admins'],
+  ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'],
+  ['timetable', '/timetable'], ['pricing', '/pricing'], ['salaries', '/salaries'],
+  ['absences', '/absences'], ['holidays', '/holidays'], ['invoices', '/invoices'],
+  ['payslips', '/payslips'], ['admins', '/admins'],
 ] as const;
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -16,7 +17,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { data: { user } } = await db.auth.getUser();
   const englishProUrl = process.env.NEXT_PUBLIC_ENGLISH_PRO_URL ?? '#';
   const mathProUrl = process.env.NEXT_PUBLIC_MATH_PRO_URL ?? '#';
-
   return (
     <div className="flex min-h-screen">
       <aside className="w-60 shrink-0 border-r border-slate-200 bg-white p-4">
@@ -32,14 +32,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           ))}
         </nav>
         <div className="mt-6 space-y-2 border-t border-slate-200 pt-4">
-          <a href={englishProUrl} target="_blank" rel="noreferrer"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-indigo-700">
-            {t('nav.english_pro')}
-          </a>
-          <a href={mathProUrl} target="_blank" rel="noreferrer"
-            className="block rounded-md bg-emerald-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-emerald-700">
-            {t('nav.math_pro')}
-          </a>
+          <a href={englishProUrl} target="_blank" rel="noreferrer" className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-indigo-700">{t('nav.english_pro')}</a>
+          <a href={mathProUrl} target="_blank" rel="noreferrer" className="block rounded-md bg-emerald-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-emerald-700">{t('nav.math_pro')}</a>
         </div>
       </aside>
       <div className="flex flex-1 flex-col">
