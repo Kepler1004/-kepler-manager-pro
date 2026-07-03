@@ -1,15 +1,20 @@
 'use client';
 import { Fragment, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import StudentForm, { type StudentRow } from '@/components/StudentForm';
 import { Link } from '@/i18n/routing';
 import { deleteStudent } from './actions';
 
-export default function StudentsClient({ students }: { students: StudentRow[] }) {
+export default function StudentsClient({ students, sort }: { students: StudentRow[]; sort: string }) {
   const t = useTranslations('student');
   const tc = useTranslations('common');
   const [adding, setAdding] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const sortKeys = ['name','grade','school','created'] as const;
+  const setSort = (k: string) => router.push(`${pathname}?sort=${k}`);
 
   return (
     <div className="space-y-4">
@@ -20,6 +25,16 @@ export default function StudentsClient({ students }: { students: StudentRow[] })
         </button>
       )}
       {adding && <StudentForm onDone={() => setAdding(false)} />}
+
+      <div className="flex items-center gap-1 text-sm">
+        <span className="mr-1 text-slate-400">{t('sort_by')}:</span>
+        {sortKeys.map((k) => (
+          <button key={k} onClick={() => setSort(k)}
+            className={`rounded-md px-3 py-1 ${sort === k ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+            {t(`sort_${k}`)}
+          </button>
+        ))}
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <table className="w-full text-sm">

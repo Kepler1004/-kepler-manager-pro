@@ -68,7 +68,14 @@
     "send_email": "Send PDF by email",
     "sent": "Sent",
     "paid": "Paid",
-    "holiday_excluded": "Holiday excluded"
+    "holiday_excluded": "Holiday excluded",
+    "send_all": "Send all",
+    "send_selected": "Send selected",
+    "confirm_send_all": "Send all invoices for this month?",
+    "confirm_send_selected": "Send {n} selected?",
+    "empty": "No invoices.",
+    "confirm_delete": "Delete this invoice?",
+    "delete_invoice": "Delete invoice"
   },
   "payslip": {
     "title": "Teacher Payslip",
@@ -106,7 +113,8 @@
     "empty": "No absences yet.",
     "sync_title": "Google Calendar sync",
     "sync_btn": "Sync",
-    "sync_done": "Pushed {n} (events {e})"
+    "sync_done": "Pushed {n} (events {e})",
+    "end_date_opt": "End date (range)"
   },
   "roles": {
     "master": "Master",
@@ -146,7 +154,12 @@
     "note_placeholder": "Enter counseling note",
     "note_add": "Add note",
     "no_notes": "No counseling notes.",
-    "upload_photo": "Upload photo"
+    "upload_photo": "Upload photo",
+    "sort_by": "Sort",
+    "sort_name": "Name",
+    "sort_grade": "Grade",
+    "sort_school": "School",
+    "sort_created": "Newest"
   },
   "klass": {
     "add": "Add class",
@@ -187,7 +200,9 @@
     "phone": "Phone",
     "edit_info": "Edit",
     "delete_account": "Delete",
-    "confirm_delete_account": "Permanently delete this account? Login and payslips will also be removed. This cannot be undone."
+    "confirm_delete_account": "Permanently delete this account? Login and payslips will also be removed. This cannot be undone.",
+    "reset_pw": "Password",
+    "new_password": "New password"
   },
   "holiday": {
     "title": "Holidays",
@@ -215,7 +230,8 @@
     "percent_base": "% is calculated on the base salary.",
     "save": "Save",
     "cancel": "Cancel",
-    "google_calendar_id": "Google Calendar ID (teacher)"
+    "google_calendar_id": "Google Calendar ID (teacher)",
+    "work_days": "Work days"
   },
   "timetable": {
     "print": "Print",
@@ -234,6 +250,8 @@
     "days": "Days",
     "reason": "Reason",
     "period": "Period",
-    "empty": "No leave records."
+    "empty": "No leave records.",
+    "auto_days_hint": "Days auto-calculated by work days & holidays",
+    "new_password": "New password"
   }
 }

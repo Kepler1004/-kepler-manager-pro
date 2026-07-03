@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase-server';
 import InvoiceSend from './send';
+import InvoiceItemsEditor from './edit';
 
 const DOW = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -34,27 +35,7 @@ export default async function InvoiceDetail({ params }: { params: Promise<{ id: 
           <InvoiceSend invoiceId={inv.id} status={inv.status} />
         </div>
 
-        <table className="mt-5 w-full text-sm">
-          <thead className="border-b text-left text-slate-500">
-            <tr>
-              <th className="py-2">{t('common.class')}</th><th className="py-2">{t('common.day')}</th>
-              <th className="py-2">{t('common.time')}</th><th className="py-2 text-right">{t('common.session')}</th>
-              <th className="py-2 text-right">{t('common.unit_price')}</th><th className="py-2 text-right">{t('common.amount')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((it) => (
-              <tr key={it.id} className="border-b border-slate-100">
-                <td className="py-2">{it.class_name}</td>
-                <td className="py-2">{it.day_label || DOW[it.day_of_week]}</td>
-                <td className="py-2">{it.time_label}</td>
-                <td className="py-2 text-right">{it.sessions}{(it.absent_sessions || it.holiday_sessions) ? ` (−${(it.absent_sessions||0)+(it.holiday_sessions||0)})` : ''}</td>
-                <td className="py-2 text-right">{Number(it.unit_price).toFixed(2)}</td>
-                <td className="py-2 text-right">{Number(it.amount).toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <InvoiceItemsEditor invoiceId={inv.id} items={items as any} />
 
         <div className="mt-4 space-y-1 text-right text-sm">
           <div>{t('common.subtotal')}: {inv.currency} {Number(inv.subtotal).toFixed(2)}</div>

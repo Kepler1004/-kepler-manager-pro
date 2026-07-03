@@ -1,17 +1,18 @@
 'use client';
 import { Fragment, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { createUserAccount, updateUserRole, toggleUserActive, updateUserInfo, deleteUserAccount } from './actions';
+import { createUserAccount, updateUserRole, toggleUserActive, updateUserInfo, deleteUserAccount, resetUserPassword } from './actions';
 import TeacherPayrollForm from '@/components/TeacherPayrollForm';
 
-type P = { id: string; full_name: string; email: string; role: string; is_active: boolean; phone?: string|null; employment_type?: string; tax_no?: string|null; ic_no?: string|null; epf_no?: string|null; bank_account?: string|null; allowance?: number; google_calendar_id?: string|null; payroll_config?: any };
+type P = { id: string; full_name: string; email: string; role: string; is_active: boolean; phone?: string|null; employment_type?: string; tax_no?: string|null; ic_no?: string|null; epf_no?: string|null; bank_account?: string|null; allowance?: number; google_calendar_id?: string|null; work_days?: number[]|null; payroll_config?: any };
 
-export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P[]; meId: string; isMaster: boolean }) {
+export default function AdminsClient({ profiles, meId, isMaster, canManagePw }: { profiles: P[]; meId: string; isMaster: boolean; canManagePw: boolean }) {
   const t = useTranslations('admin');
   const tr = useTranslations('roles');
   const [adding, setAdding] = useState(false);
   const [payrollId, setPayrollId] = useState<string | null>(null);
   const [editId, setEditId] = useState<string | null>(null);
+  const [pwId, setPwId] = useState<string | null>(null);
   const [rowErr, setRowErr] = useState('');
   const [err, setErr] = useState('');
 
@@ -102,6 +103,11 @@ export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P
                       {t('edit_info')}
                     </button>
                   )}
+                  {canManagePw && (
+                    <button onClick={() => { setPwId(pwId === p.id ? null : p.id); setRowErr(''); }} className="mr-3 text-amber-700">
+                      {t('reset_pw')}
+                    </button>
+                  )}
                   {isMaster && p.id !== meId && (
                     <form action={deleteUserAccount} className="inline"
                       onSubmit={(e) => { if (!confirm(t('confirm_delete_account'))) e.preventDefault(); }}>
@@ -111,6 +117,19 @@ export default function AdminsClient({ profiles, meId, isMaster }: { profiles: P
                   )}
                 </td>
               </tr>
+              {pwId === p.id && (
+                <tr><td colSpan={5} className="bg-amber-50 px-4 py-3">
+                  <form action={async (fd) => { setRowErr(''); try { await resetUserPassword(fd); setPwId(null); alert('변경되었습니다.'); } catch (e: any) { setRowErr(e.message); } }}
+                    className="flex items-end gap-2">
+                    <input type="hidden" name="id" value={p.id} />
+                    <label className="block"><span className="mb-1 block text-xs text-slate-500">{t('new_password')}</span>
+                      <input name="password" type="text" minLength={6} required className="rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+                    <button className="rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white">{t('save')}</button>
+                    <button type="button" onClick={() => setPwId(null)} className="text-sm text-slate-500">{t('cancel')}</button>
+                    {rowErr && <span className="text-sm text-rose-600">{rowErr}</span>}
+                  </form>
+                </td></tr>
+              )}
               {editId === p.id && (
                 <tr><td colSpan={5} className="bg-slate-50 px-4 py-3">
                   <form action={async (fd) => { setRowErr(''); try { await updateUserInfo(fd); setEditId(null); } catch (e: any) { setRowErr(e.message); } }}

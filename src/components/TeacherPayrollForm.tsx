@@ -6,7 +6,7 @@ import { updateTeacherPayroll } from '@/app/[locale]/(app)/admins/actions';
 type Cfg = Record<string, { type: string; value: number } | undefined>;
 export interface TeacherP {
   id: string; employment_type?: string; tax_no?: string | null; ic_no?: string | null;
-  epf_no?: string | null; bank_account?: string | null; allowance?: number; fixed_base_salary?: number; google_calendar_id?: string | null; payroll_config?: Cfg;
+  epf_no?: string | null; bank_account?: string | null; allowance?: number; fixed_base_salary?: number; google_calendar_id?: string | null; work_days?: number[] | null; payroll_config?: Cfg;
 }
 
 const DEDUCTIONS: [string, string][] = [
@@ -52,6 +52,18 @@ export default function TeacherPayrollForm({ teacher, onDone }: { teacher: Teach
           <input name="epf_no" defaultValue={teacher.epf_no ?? ''} className="inp" /></label>
         <label className="col-span-3 block"><span className="lbl">{t('google_calendar_id')}</span>
           <input name="google_calendar_id" defaultValue={teacher.google_calendar_id ?? ''} placeholder="예: abc123@group.calendar.google.com" className="inp w-full" /></label>
+        <div className="col-span-3">
+          <span className="lbl">{t('work_days')}</span>
+          <div className="mt-1 flex flex-wrap gap-3">
+            {[['0','일'],['1','월'],['2','화'],['3','수'],['4','목'],['5','금'],['6','토']].map(([v,label]) => (
+              <label key={v} className="flex items-center gap-1 text-sm">
+                <input type="checkbox" name="work_days" value={v}
+                  defaultChecked={(teacher.work_days ?? [1,2,3,4,5]).includes(Number(v))} />
+                {label}
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div>

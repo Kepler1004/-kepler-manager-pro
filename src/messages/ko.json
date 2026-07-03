@@ -68,7 +68,14 @@
     "send_email": "이메일로 PDF 발송",
     "sent": "발송됨",
     "paid": "납부 완료",
-    "holiday_excluded": "공휴일 제외"
+    "holiday_excluded": "공휴일 제외",
+    "send_all": "전체 발송",
+    "send_selected": "선택 발송",
+    "confirm_send_all": "이 달 고지서를 전체 발송할까요?",
+    "confirm_send_selected": "선택한 {n}건을 발송할까요?",
+    "empty": "고지서가 없습니다.",
+    "confirm_delete": "이 고지서를 삭제할까요?",
+    "delete_invoice": "고지서 삭제"
   },
   "payslip": {
     "title": "선생님 급여 명세서",
@@ -106,7 +113,8 @@
     "empty": "등록된 결석이 없습니다.",
     "sync_title": "구글 캘린더 동기화",
     "sync_btn": "동기화",
-    "sync_done": "등록 {n}건 (이벤트 {e}건)"
+    "sync_done": "등록 {n}건 (이벤트 {e}건)",
+    "end_date_opt": "종료일(기간)"
   },
   "roles": {
     "master": "마스터",
@@ -146,7 +154,12 @@
     "note_placeholder": "상담 내용을 입력하세요",
     "note_add": "기록 추가",
     "no_notes": "상담 기록이 없습니다.",
-    "upload_photo": "사진 업로드"
+    "upload_photo": "사진 업로드",
+    "sort_by": "정렬",
+    "sort_name": "이름순",
+    "sort_grade": "학년순",
+    "sort_school": "학교순",
+    "sort_created": "등록일순"
   },
   "klass": {
     "add": "수업 추가",
@@ -187,7 +200,9 @@
     "phone": "연락처",
     "edit_info": "정보수정",
     "delete_account": "삭제",
-    "confirm_delete_account": "이 계정을 완전히 삭제할까요? 로그인 계정과 급여 명세서가 함께 삭제됩니다. 되돌릴 수 없습니다."
+    "confirm_delete_account": "이 계정을 완전히 삭제할까요? 로그인 계정과 급여 명세서가 함께 삭제됩니다. 되돌릴 수 없습니다.",
+    "reset_pw": "비밀번호",
+    "new_password": "새 비밀번호"
   },
   "holiday": {
     "title": "공휴일 관리",
@@ -215,7 +230,8 @@
     "percent_base": "% 는 기본급 기준으로 계산됩니다.",
     "save": "저장",
     "cancel": "취소",
-    "google_calendar_id": "구글 캘린더 ID (선생님)"
+    "google_calendar_id": "구글 캘린더 ID (선생님)",
+    "work_days": "근무 요일"
   },
   "timetable": {
     "print": "인쇄",
@@ -234,6 +250,8 @@
     "days": "일수",
     "reason": "사유",
     "period": "기간",
-    "empty": "등록된 휴가가 없습니다."
+    "empty": "등록된 휴가가 없습니다.",
+    "auto_days_hint": "일수는 근무요일·공휴일 기준 자동 계산",
+    "new_password": "새 비밀번호"
   }
 }

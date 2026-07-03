@@ -76,6 +76,7 @@ export async function updateTeacherPayroll(formData: FormData) {
     fixed_base_salary: Number(formData.get('fixed_base_salary') ?? 0),
     tax_no: g('tax_no'), ic_no: g('ic_no'), epf_no: g('epf_no'), bank_account: g('bank_account'),
     google_calendar_id: g('google_calendar_id'),
+    work_days: (formData.getAll('work_days') as string[]).map(Number).sort((a,b)=>a-b),
     allowance: Number(formData.get('allowance') ?? 0),
     payroll_config,
   }).eq('id', id);
@@ -112,4 +113,19 @@ export async function deleteUserAccount(formData: FormData) {
   const { error } = await admin.auth.admin.deleteUser(id);
   if (error) throw new Error(error.message);
   revalidatePath('/admins');
+}
+
+// 비밀번호 재설정 — 마스터 + 관리자A 만
+async function ensureAdminA() {
+  const me = await getCurrentProfile();
+  if (!(me?.role === 'master' || me?.role === 'admin')) throw new Error('마스터/관리자A만 가능합니다.');
+}
+export async function resetUserPassword(formData: FormData) {
+  await ensureAdminA();
+  const id = String(formData.get('id'));
+  const password = String(formData.get('password') ?? '');
+  if (password.length < 6) throw new Error('비밀번호는 6자 이상이어야 합니다.');
+  const admin = createAdminClient();
+  const { error } = await admin.auth.admin.updateUserById(id, { password });
+  if (error) throw new Error(error.message);
 }

@@ -68,7 +68,14 @@
     "send_email": "通过邮件发送PDF",
     "sent": "已发送",
     "paid": "已付款",
-    "holiday_excluded": "公休日扣除"
+    "holiday_excluded": "公休日扣除",
+    "send_all": "全部发送",
+    "send_selected": "发送所选",
+    "confirm_send_all": "发送本月全部账单？",
+    "confirm_send_selected": "发送所选 {n} 份？",
+    "empty": "暂无账单。",
+    "confirm_delete": "删除此账单？",
+    "delete_invoice": "删除账单"
   },
   "payslip": {
     "title": "教师工资单",
@@ -106,7 +113,8 @@
     "empty": "暂无请假记录。",
     "sync_title": "谷歌日历同步",
     "sync_btn": "同步",
-    "sync_done": "已登记 {n} (事件 {e})"
+    "sync_done": "已登记 {n} (事件 {e})",
+    "end_date_opt": "结束日期(区间)"
   },
   "roles": {
     "master": "主账户",
@@ -146,7 +154,12 @@
     "note_placeholder": "请输入咨询内容",
     "note_add": "添加记录",
     "no_notes": "暂无咨询记录。",
-    "upload_photo": "上传照片"
+    "upload_photo": "上传照片",
+    "sort_by": "排序",
+    "sort_name": "姓名",
+    "sort_grade": "年级",
+    "sort_school": "学校",
+    "sort_created": "最新"
   },
   "klass": {
     "add": "添加课程",
@@ -187,7 +200,9 @@
     "phone": "联系方式",
     "edit_info": "编辑",
     "delete_account": "删除",
-    "confirm_delete_account": "永久删除该账号？登录账号和工资单将一并删除，且无法恢复。"
+    "confirm_delete_account": "永久删除该账号？登录账号和工资单将一并删除，且无法恢复。",
+    "reset_pw": "密码",
+    "new_password": "新密码"
   },
   "holiday": {
     "title": "公休日管理",
@@ -215,7 +230,8 @@
     "percent_base": "% 按底薪计算。",
     "save": "保存",
     "cancel": "取消",
-    "google_calendar_id": "谷歌日历ID (教师)"
+    "google_calendar_id": "谷歌日历ID (教师)",
+    "work_days": "工作日"
   },
   "timetable": {
     "print": "打印",
@@ -234,6 +250,8 @@
     "days": "天数",
     "reason": "事由",
     "period": "期间",
-    "empty": "暂无休假记录。"
+    "empty": "暂无休假记录。",
+    "auto_days_hint": "天数按工作日和公休日自动计算",
+    "new_password": "新密码"
   }
 }

@@ -63,6 +63,8 @@ export default function AbsencesClient({ students, classes, enrollments, absence
           </select></label>
         <label className="block"><span className="mb-1 block text-xs text-slate-500">{t('date')} *</span>
           <input name="absence_date" type="date" required className="rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
+        <label className="block"><span className="mb-1 block text-xs text-slate-500">{t('end_date_opt')}</span>
+          <input name="end_date" type="date"  className="rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
         <label className="block flex-1"><span className="mb-1 block text-xs text-slate-500">{t('reason')}</span>
           <input name="reason" className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
         <button className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white">{tc('add')}</button>
