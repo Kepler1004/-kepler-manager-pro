@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import { deleteInvoice } from './[id]/actions';
 
 type Inv = { id: string; period_year: number; period_month: number; total: number; status: string; currency: string; students: any };
 
@@ -66,8 +67,12 @@ export default function InvoicesClient({ invoices }: { invoices: Inv[] }) {
                 <td className="px-4 py-2">{inv.period_year}.{inv.period_month}</td>
                 <td className="px-4 py-2 text-right">{inv.currency} {Number(inv.total).toFixed(2)}</td>
                 <td className="px-4 py-2">{inv.status}</td>
-                <td className="px-4 py-2 text-right">
-                  <button disabled={busy} onClick={() => send({ invoiceId: inv.id })} className="rounded-md bg-slate-900 px-3 py-1 text-xs text-white disabled:opacity-50">{t('invoice.send_email')}</button>
+                <td className="px-4 py-2 text-right whitespace-nowrap">
+                  <button disabled={busy} onClick={() => send({ invoiceId: inv.id })} className="mr-2 rounded-md bg-slate-900 px-3 py-1 text-xs text-white disabled:opacity-50">{t('invoice.send_email')}</button>
+                  <form action={deleteInvoice} className="inline" onSubmit={(e) => { if (!confirm(t('invoice.confirm_delete'))) e.preventDefault(); }}>
+                    <input type="hidden" name="invoice_id" value={inv.id} />
+                    <button className="rounded-md border border-rose-200 px-3 py-1 text-xs text-rose-600">{t('common.delete')}</button>
+                  </form>
                 </td>
               </tr>
             ))}

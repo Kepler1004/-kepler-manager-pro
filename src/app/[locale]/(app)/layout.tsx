@@ -19,6 +19,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const nav = NAV.filter(([key]) => canAccess(role, key));
   const englishProUrl = process.env.NEXT_PUBLIC_ENGLISH_PRO_URL ?? '#';
   const mathProUrl = process.env.NEXT_PUBLIC_MATH_PRO_URL ?? '#';
+  const campProUrl = process.env.NEXT_PUBLIC_CAMP_PRO_URL ?? 'https://kepler-edu.com';
 
   return (
     <div className="flex min-h-screen">
@@ -39,6 +40,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-indigo-700">{t('nav.english_pro')}</a>
           <a href={mathProUrl} target="_blank" rel="noreferrer"
             className="block rounded-md bg-emerald-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-emerald-700">{t('nav.math_pro')}</a>
+          <a href={campProUrl} target="_blank" rel="noreferrer"
+            className="block rounded-md bg-amber-600 px-3 py-2 text-center text-sm font-medium text-white hover:bg-amber-700">{t('nav.camp_pro')}</a>
         </div>
       </aside>
       <div className="flex flex-1 flex-col">

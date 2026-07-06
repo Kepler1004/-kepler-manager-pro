@@ -18,7 +18,8 @@
     "logout": "退出登录",
     "holidays": "公休日",
     "timetable": "每周课程表",
-    "vacations": "休假管理"
+    "vacations": "休假管理",
+    "camp_pro": "Camp Pro"
   },
   "common": {
     "save": "保存",

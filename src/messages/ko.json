@@ -18,7 +18,8 @@
     "logout": "로그아웃",
     "holidays": "공휴일",
     "timetable": "주간 시간표",
-    "vacations": "휴가 관리"
+    "vacations": "휴가 관리",
+    "camp_pro": "Camp Pro"
   },
   "common": {
     "save": "저장",

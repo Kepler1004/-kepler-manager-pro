@@ -18,7 +18,8 @@
     "logout": "Log out",
     "holidays": "Holidays",
     "timetable": "Weekly Timetable",
-    "vacations": "Leave"
+    "vacations": "Leave",
+    "camp_pro": "Camp Pro"
   },
   "common": {
     "save": "Save",
