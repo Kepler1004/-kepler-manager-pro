@@ -1,0 +1,11 @@
+대시보드 페이지에 딱 두 줄만 추가하면 됩니다.
+파일: src/app/[locale]/(app)/dashboard/page.tsx
+
+1) 파일 상단 import 구역에 추가:
+   import { DailyReportBoard } from '@/components/report/DailyReportBoard';
+
+2) "미납" 카드/섹션 바로 아래(반환 JSX 안, 학생검색·재원생·선생님·미납 다음 위치)에 추가:
+   <DailyReportBoard />
+
+DailyReportBoard 는 서버 컴포넌트라서 내부에서 권한을 스스로 확인합니다.
+선생님/비로그인에게는 아무것도 렌더되지 않으니(=null 반환) 별도 조건문이 필요 없습니다.

@@ -1,0 +1,41 @@
+// 아래 "report" 블록을 src/messages/ko.json, en.json, zh.json 각각의 최상위에 추가하세요.
+// (기존 키는 그대로 두고 콤마로 이어 붙이면 됩니다.)
+
+// ── ko.json ──
+"report": {
+  "title": "일일 업무 현황",
+  "assign": "업무 할당",
+  "done": "오늘 한 일",
+  "added": "오늘 추가된 업무",
+  "hold": "마무리 못한 일",
+  "plan": "내일 할 일",
+  "imminent": "마감 임박 업무",
+  "reason": "사유",
+  "deadline": "마감"
+}
+
+// ── en.json ──
+"report": {
+  "title": "Daily Work Status",
+  "assign": "Assign Task",
+  "done": "Done Today",
+  "added": "Added Today",
+  "hold": "On Hold",
+  "plan": "Plan for Tomorrow",
+  "imminent": "Tasks Due Soon",
+  "reason": "Reason",
+  "deadline": "Due"
+}
+
+// ── zh.json ──
+"report": {
+  "title": "每日工作状态",
+  "assign": "分配任务",
+  "done": "今日完成",
+  "added": "今日新增",
+  "hold": "未完成",
+  "plan": "明日计划",
+  "imminent": "临近截止任务",
+  "reason": "原因",
+  "deadline": "截止"
+}

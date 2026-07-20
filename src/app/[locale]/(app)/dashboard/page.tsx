@@ -2,6 +2,7 @@ import { requireSection } from '@/lib/guards';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase-server';
 import StudentSearch from '@/components/StudentSearch';
+import { DailyReportBoard } from '@/components/report/DailyReportBoard';
 
 export default async function Dashboard() {
   await requireSection('dashboard');
@@ -31,6 +32,7 @@ export default async function Dashboard() {
         <Card label={t('dashboard.teachers')} value={teachers ?? 0} />
         <Card label={t('dashboard.unpaid')} value={unpaid ?? 0} />
       </div>
+      <DailyReportBoard />
     </div>
   );
 }
