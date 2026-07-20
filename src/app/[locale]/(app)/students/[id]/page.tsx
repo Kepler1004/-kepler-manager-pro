@@ -20,10 +20,16 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
     .select('id, note_date, content, author_name')
     .eq('student_id', id).order('note_date', { ascending: false }).order('created_at', { ascending: false });
 
+  const { data: enrollments } = await db
+    .from('enrollments')
+    .select('status, classes(name, day_of_week, days, start_time, end_time, room)')
+    .eq('student_id', id)
+    .eq('status', 'active');
+
   return (
     <div className="max-w-3xl">
       <Link href="/students" className="text-sm text-indigo-600">← {t('nav.students')}</Link>
-      <StudentDetailClient student={student} notes={notes ?? []} />
+      <StudentDetailClient student={student} notes={notes ?? []} enrollments={enrollments ?? []} />
     </div>
   );
 }

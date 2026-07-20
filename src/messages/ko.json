@@ -57,7 +57,8 @@
     "unpaid": "미납",
     "teachers": "선생님",
     "students_active": "재원생",
-    "search_student": "학생 이름 검색..."
+    "search_student": "학생 이름 검색...",
+    "no_enrollment": "수강 중인 수업 없음"
   },
   "invoice": {
     "title": "원비 납부 고지서",
@@ -160,7 +161,9 @@
     "sort_name": "이름순",
     "sort_grade": "학년순",
     "sort_school": "학교순",
-    "sort_created": "등록일순"
+    "sort_created": "등록일순",
+    "enrollments": "수강 정보",
+    "no_enrollment": "수강 중인 수업 없음"
   },
   "klass": {
     "add": "수업 추가",

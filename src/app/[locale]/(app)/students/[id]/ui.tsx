@@ -7,13 +7,19 @@ import { addCounselingNote, deleteCounselingNote, updateStudentPhoto } from '../
 type Student = { id: string; name: string; name_en?: string|null; school?: string|null; grade?: string|null;
   guardian_name?: string|null; guardian_email?: string; phone?: string|null; status?: string|null; photo_url?: string|null };
 type Note = { id: string; note_date: string; content: string; author_name: string|null };
+type Enrollment = { status: string; classes: { name: string; day_of_week: number; days: number[] | null; start_time: string; end_time: string; room: string | null } | null };
 
-export default function StudentDetailClient({ student, notes }: { student: Student; notes: Note[] }) {
+const DOW = ['일', '월', '화', '수', '목', '금', '토'];
+
+export default function StudentDetailClient({ student, notes, enrollments }:
+  { student: Student; notes: Note[]; enrollments: Enrollment[] }) {
   const t = useTranslations('student');
   const tc = useTranslations('common');
   const [photo, setPhoto] = useState(student.photo_url ?? '');
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState('');
+
+  const classes = (enrollments ?? []).filter((e) => e.classes);
 
   async function onPhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return;
@@ -57,6 +63,29 @@ export default function StudentDetailClient({ student, notes }: { student: Stude
             <div>{t('status')}: {student.status}</div>
           </div>
         </div>
+      </div>
+
+      {/* 수강 정보 */}
+      <div className="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 className="mb-3 text-lg font-bold">{t('enrollments')}</h2>
+        {classes.length === 0 ? (
+          <p className="text-sm text-slate-400">{t('no_enrollment')}</p>
+        ) : (
+          <ul className="space-y-1 text-sm text-slate-700">
+            {classes.map((e, i) => {
+              const c = e.classes!;
+              const daysLabel = (c.days && c.days.length ? c.days : [c.day_of_week]).map((d) => DOW[d]).join('·');
+              return (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-600">{c.name}</span>
+                  <span className="text-slate-500">
+                    {daysLabel} {String(c.start_time).slice(0, 5)}–{String(c.end_time).slice(0, 5)}{c.room ? ` · ${c.room}` : ''}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       {/* 상담 기록 */}

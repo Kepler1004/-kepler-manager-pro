@@ -15,7 +15,7 @@ export default async function AdminsPage() {
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">{t('nav.admins')}</h1>
-      <AdminsClient profiles={profiles ?? []} meId={me.id} isMaster={me.role === 'master'} canManagePw={me.role === 'master' || me.role === 'admin'} />
+      <AdminsClient profiles={profiles ?? []} meId={me.id} isMaster={me.role === 'master'} canManagePw={me.role === 'master' || me.role === 'admin'} canCreate={me.role === 'master' || me.role === 'admin'} />
     </div>
   );
 }

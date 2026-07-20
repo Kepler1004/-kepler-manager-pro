@@ -57,7 +57,8 @@
     "unpaid": "Unpaid",
     "teachers": "Teachers",
     "students_active": "Active students",
-    "search_student": "Search student name..."
+    "search_student": "Search student name...",
+    "no_enrollment": "No enrolled classes"
   },
   "invoice": {
     "title": "Tuition Invoice",
@@ -160,7 +161,9 @@
     "sort_name": "Name",
     "sort_grade": "Grade",
     "sort_school": "School",
-    "sort_created": "Newest"
+    "sort_created": "Newest",
+    "enrollments": "Enrolled classes",
+    "no_enrollment": "No enrolled classes"
   },
   "klass": {
     "add": "Add class",

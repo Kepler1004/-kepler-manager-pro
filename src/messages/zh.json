@@ -57,7 +57,8 @@
     "unpaid": "未付",
     "teachers": "教师",
     "students_active": "在读学生",
-    "search_student": "搜索学生姓名..."
+    "search_student": "搜索学生姓名...",
+    "no_enrollment": "暂无在读课程"
   },
   "invoice": {
     "title": "学费账单",
@@ -160,7 +161,9 @@
     "sort_name": "姓名",
     "sort_grade": "年级",
     "sort_school": "学校",
-    "sort_created": "最新"
+    "sort_created": "最新",
+    "enrollments": "在读课程",
+    "no_enrollment": "暂无在读课程"
   },
   "klass": {
     "add": "添加课程",

@@ -14,7 +14,7 @@ async function ensureStaff() {
 
 // 선생님(또는 관리자) 계정 생성: 로그인 가능한 auth 사용자 + profiles 역할 지정
 export async function createUserAccount(formData: FormData) {
-  await ensureMaster();
+  await ensureAdminA();
   const email = String(formData.get('email') ?? '').trim();
   const password = String(formData.get('password') ?? '');
   const fullName = String(formData.get('full_name') ?? '').trim();

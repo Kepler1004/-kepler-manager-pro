@@ -6,7 +6,7 @@ import TeacherPayrollForm from '@/components/TeacherPayrollForm';
 
 type P = { id: string; full_name: string; email: string; role: string; is_active: boolean; phone?: string|null; employment_type?: string; tax_no?: string|null; ic_no?: string|null; epf_no?: string|null; bank_account?: string|null; allowance?: number; google_calendar_id?: string|null; work_days?: number[]|null; payroll_config?: any };
 
-export default function AdminsClient({ profiles, meId, isMaster, canManagePw }: { profiles: P[]; meId: string; isMaster: boolean; canManagePw: boolean }) {
+export default function AdminsClient({ profiles, meId, isMaster, canManagePw, canCreate }: { profiles: P[]; meId: string; isMaster: boolean; canManagePw: boolean; canCreate: boolean }) {
   const t = useTranslations('admin');
   const tr = useTranslations('roles');
   const [adding, setAdding] = useState(false);
@@ -24,12 +24,12 @@ export default function AdminsClient({ profiles, meId, isMaster, canManagePw }: 
 
   return (
     <div className="space-y-4">
-      {isMaster && !adding && (
+      {canCreate && !adding && (
         <button onClick={() => setAdding(true)} className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white">
           + {t('add_account')}
         </button>
       )}
-      {isMaster && adding && (
+      {canCreate && adding && (
         <form action={add} className="grid grid-cols-2 gap-3 rounded-xl border border-slate-200 bg-white p-4">
           <label className="block"><span className="mb-1 block text-xs text-slate-500">{t('full_name')}</span>
             <input name="full_name" className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" /></label>
