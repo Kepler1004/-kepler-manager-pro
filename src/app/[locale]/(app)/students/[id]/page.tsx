@@ -29,7 +29,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
   return (
     <div className="max-w-3xl">
       <Link href="/students" className="text-sm text-indigo-600">← {t('nav.students')}</Link>
-      <StudentDetailClient student={student} notes={notes ?? []} enrollments={enrollments ?? []} />
+      <StudentDetailClient student={student} notes={notes ?? []} enrollments={(enrollments ?? []) as any} />
     </div>
   );
 }
