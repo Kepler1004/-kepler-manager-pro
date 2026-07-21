@@ -12,7 +12,7 @@ export async function GET() {
   const sb = await reportServerClient();
   const { data } = await sb
     .from('profiles')
-    .select('id, full_name, role, report_enabled, whatsapp_number')
+    .select('id, full_name, role, report_enabled, whatsapp_number, report_send_hour')
     .in('role', ['master', 'admin', 'admin_b', 'teacher'])
     .eq('is_active', true)
     .order('role', { ascending: true });
@@ -25,13 +25,16 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
   }
   const body = await req.json();
-  const updates: { id: string; enabled: boolean; whatsapp_number?: string | null }[] = body.updates ?? [];
+  const updates: { id: string; enabled: boolean; whatsapp_number?: string | null; send_hour?: number }[] = body.updates ?? [];
   const admin = reportAdminClient();
   for (const u of updates) {
     const patch: Record<string, unknown> = { report_enabled: u.enabled };
     if ('whatsapp_number' in u) {
       const n = (u.whatsapp_number ?? '').replace(/[^0-9]/g, '');
       patch.whatsapp_number = n || null;
+    }
+    if (typeof u.send_hour === 'number' && u.send_hour >= 0 && u.send_hour <= 23) {
+      patch.report_send_hour = u.send_hour;
     }
     await admin.from('profiles').update(patch).eq('id', u.id);
   }
