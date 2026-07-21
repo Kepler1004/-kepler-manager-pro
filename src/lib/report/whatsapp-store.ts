@@ -1,0 +1,1 @@
+export { reportAdminClient } from './supabase';
