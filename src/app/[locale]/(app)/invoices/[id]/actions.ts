@@ -85,9 +85,16 @@ export async function setInvoiceStatus(formData: FormData) {
   const db = await createClient();
   const invoiceId = String(formData.get('invoice_id'));
   const status = String(formData.get('status'));
-  const patch: Record<string, any> = { status };
-  if (status === 'paid') patch.paid_at = new Date().toISOString();
-  if (status === 'unpaid') patch.paid_at = null;
+  const patch: Record<string, any> = {};
+  if (status === 'paid') {
+    patch.status = 'paid';
+    patch.paid_at = new Date().toISOString();
+  } else {
+    // 납부완료 해제: 발송된 적 있으면 sent, 아니면 draft 로 복귀
+    const { data: cur } = await db.from('invoices').select('sent_at').eq('id', invoiceId).single();
+    patch.status = cur?.sent_at ? 'sent' : 'draft';
+    patch.paid_at = null;
+  }
   const { error } = await db.from('invoices').update(patch).eq('id', invoiceId);
   if (error) throw new Error(error.message);
   revalidatePath(`/invoices/${invoiceId}`);
