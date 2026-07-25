@@ -5,6 +5,7 @@ export type Role = 'master' | 'admin' | 'admin_b' | 'teacher';
 
 // 섹션별 접근 가능한 역할
 const ACCESS: Record<string, Role[]> = {
+  finance: ['master'],
   dashboard: ['master', 'admin', 'admin_b'],
   students:  ['master', 'admin', 'admin_b'],
   classes:   ['master', 'admin', 'admin_b'],
