@@ -77,7 +77,14 @@
     "confirm_send_selected": "发送所选 {n} 份？",
     "empty": "暂无账单。",
     "confirm_delete": "删除此账单？",
-    "delete_invoice": "删除账单"
+    "delete_invoice": "删除账单",
+    "delete_selected": "删除所选",
+    "confirm_delete_selected": "确定删除所选的 {n} 份账单吗？此操作无法撤销。",
+    "sort_name": "按姓名",
+    "sort_grade": "按年级",
+    "sort_school": "按学校",
+    "sort_created": "按注册日",
+    "sort_total": "按金额"
   },
   "payslip": {
     "title": "教师工资单",

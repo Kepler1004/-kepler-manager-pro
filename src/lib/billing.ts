@@ -16,6 +16,8 @@ export interface BillableClass {
   startTime: string;
   endTime: string;
   unitPrice: number;       // 1회차(하루) 단가
+  billingType?: 'per_session' | 'flat_monthly'; // 기본 회차제
+  monthlyFee?: number;     // 월정액일 때 고정 금액
 }
 
 export interface PlannedAbsence { classId: string; date: string; } // 'YYYY-MM-DD'

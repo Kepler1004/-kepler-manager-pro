@@ -9,7 +9,7 @@ export default async function InvoicesPage() {
   const db = await createClient();
   const { data: invoices } = await db
     .from('invoices')
-    .select('id, period_year, period_month, total, status, currency, students(name, guardian_email)')
+    .select('id, period_year, period_month, total, status, currency, students(name, guardian_email, school, grade, created_at)')
     .order('created_at', { ascending: false }).limit(200);
 
   return (

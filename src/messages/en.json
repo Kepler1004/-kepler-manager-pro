@@ -77,7 +77,14 @@
     "confirm_send_selected": "Send {n} selected?",
     "empty": "No invoices.",
     "confirm_delete": "Delete this invoice?",
-    "delete_invoice": "Delete invoice"
+    "delete_invoice": "Delete invoice",
+    "delete_selected": "Delete selected",
+    "confirm_delete_selected": "Delete {n} selected invoice(s)? This cannot be undone.",
+    "sort_name": "By name",
+    "sort_grade": "By grade",
+    "sort_school": "By school",
+    "sort_created": "By registered",
+    "sort_total": "By amount"
   },
   "payslip": {
     "title": "Teacher Payslip",

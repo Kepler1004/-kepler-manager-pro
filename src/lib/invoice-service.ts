@@ -27,7 +27,7 @@ export async function generateInvoiceForStudent(
 
   const { data: enrolls, error: e1 } = await db
     .from('enrollments')
-    .select('class_id, classes(id, name, day_of_week, days, start_time, end_time, session_price, is_active)')
+    .select('class_id, classes(id, name, day_of_week, days, start_time, end_time, session_price, billing_type, monthly_fee, is_active)')
     .eq('student_id', studentId).eq('status', 'active');
   if (e1) throw e1;
 
@@ -39,6 +39,8 @@ export async function generateInvoiceForStudent(
         classId: c.id, className: c.name, daysOfWeek: days,
         startTime: String(c.start_time).slice(0, 5), endTime: String(c.end_time).slice(0, 5),
         unitPrice: Number(c.session_price),
+        billingType: c.billing_type ?? 'per_session',
+        monthlyFee: c.monthly_fee != null ? Number(c.monthly_fee) : undefined,
       };
     });
   if (classes.length === 0) return null;

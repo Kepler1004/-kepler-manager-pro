@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { deleteInvoice } from './[id]/actions';
+import { deleteInvoice, deleteInvoicesBulk } from './[id]/actions';
 
 type Inv = { id: string; period_year: number; period_month: number; total: number; status: string; currency: string; students: any };
 
@@ -15,6 +15,7 @@ export default function InvoicesClient({ invoices }: { invoices: Inv[] }) {
   const [busy, setBusy] = useState(false);
   const [sel, setSel] = useState<Set<string>>(new Set());
   const [msg, setMsg] = useState('');
+  const [sort, setSort] = useState('name');
 
   const toggle = (id: string) => setSel((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const allChecked = invoices.length > 0 && sel.size === invoices.length;
@@ -35,15 +36,46 @@ export default function InvoicesClient({ invoices }: { invoices: Inv[] }) {
     if (r.ok) setTimeout(() => location.reload(), 800);
   }
 
+  async function bulkDelete() {
+    if (sel.size === 0) return;
+    if (!confirm(t('invoice.confirm_delete_selected', { n: sel.size }))) return;
+    setBusy(true); setMsg('');
+    const fd = new FormData();
+    fd.set('ids', JSON.stringify([...sel]));
+    await deleteInvoicesBulk(fd);
+    setBusy(false); setSel(new Set()); location.reload();
+  }
+
+  const sorted = [...invoices].sort((a, b) => {
+    const sa = a.students ?? {}, sb = b.students ?? {};
+    switch (sort) {
+      case 'grade':  return String(sa.grade ?? '').localeCompare(String(sb.grade ?? ''), 'ko', { numeric: true });
+      case 'school': return String(sa.school ?? '').localeCompare(String(sb.school ?? ''), 'ko');
+      case 'created': return String(sb.created_at ?? '').localeCompare(String(sa.created_at ?? ''));
+      case 'total':  return Number(b.total) - Number(a.total);
+      default:       return String(sa.name ?? '').localeCompare(String(sb.name ?? ''), 'ko');
+    }
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end gap-2">
         <input type="number" value={year} onChange={(e) => setYear(Number(e.target.value))} className="w-24 rounded-md border border-slate-300 px-2 py-2 text-sm" />
         <input type="number" min={1} max={12} value={month} onChange={(e) => setMonth(Number(e.target.value))} className="w-16 rounded-md border border-slate-300 px-2 py-2 text-sm" />
         <button disabled={busy} onClick={generate} className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">{t('invoice.generate_next_month')}</button>
+        <select value={sort} onChange={(e) => setSort(e.target.value)}
+          className="rounded-md border border-slate-300 px-2 py-2 text-sm">
+          <option value="name">{t('invoice.sort_name')}</option>
+          <option value="grade">{t('invoice.sort_grade')}</option>
+          <option value="school">{t('invoice.sort_school')}</option>
+          <option value="created">{t('invoice.sort_created')}</option>
+          <option value="total">{t('invoice.sort_total')}</option>
+        </select>
         <div className="flex-1" />
         <button disabled={busy || sel.size === 0} onClick={() => send({ invoiceIds: [...sel] }, t('invoice.confirm_send_selected', { n: sel.size }))}
           className="rounded-md bg-slate-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-40">{t('invoice.send_selected')} ({sel.size})</button>
+        <button disabled={busy || sel.size === 0} onClick={bulkDelete}
+          className="rounded-md bg-rose-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-40">{t('invoice.delete_selected')} ({sel.size})</button>
         <button disabled={busy} onClick={() => send({ year, month }, t('invoice.confirm_send_all'))}
           className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">{t('invoice.send_all')}</button>
       </div>
@@ -60,7 +92,7 @@ export default function InvoicesClient({ invoices }: { invoices: Inv[] }) {
           </thead>
           <tbody>
             {invoices.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-400">{t('invoice.empty')}</td></tr>}
-            {invoices.map((inv) => (
+            {sorted.map((inv) => (
               <tr key={inv.id} className="border-t border-slate-100">
                 <td className="px-4 py-2"><input type="checkbox" checked={sel.has(inv.id)} onChange={() => toggle(inv.id)} /></td>
                 <td className="px-4 py-2"><Link href={`/invoices/${inv.id}`} className="text-indigo-600">{inv.students?.name}</Link></td>

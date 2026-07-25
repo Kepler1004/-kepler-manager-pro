@@ -77,7 +77,14 @@
     "confirm_send_selected": "선택한 {n}건을 발송할까요?",
     "empty": "고지서가 없습니다.",
     "confirm_delete": "이 고지서를 삭제할까요?",
-    "delete_invoice": "고지서 삭제"
+    "delete_invoice": "고지서 삭제",
+    "delete_selected": "선택 삭제",
+    "confirm_delete_selected": "선택한 {n}개의 고지서를 삭제하시겠습니까? 되돌릴 수 없습니다.",
+    "sort_name": "이름순",
+    "sort_grade": "학년순",
+    "sort_school": "학교순",
+    "sort_created": "등록일순",
+    "sort_total": "금액순"
   },
   "payslip": {
     "title": "선생님 급여 명세서",

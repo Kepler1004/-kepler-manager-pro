@@ -92,3 +92,13 @@ export async function setInvoiceStatus(formData: FormData) {
   if (error) throw new Error(error.message);
   revalidatePath(`/invoices/${invoiceId}`);
 }
+
+export async function deleteInvoicesBulk(formData: FormData) {
+  await requireSection('invoices');
+  const db = await createClient();
+  const ids = JSON.parse(String(formData.get('ids') || '[]')) as string[];
+  if (!ids.length) return;
+  const { error } = await db.from('invoices').delete().in('id', ids);
+  if (error) throw new Error(error.message);
+  revalidatePath('/invoices');
+}
