@@ -81,6 +81,15 @@ export function computeStudentInvoice(
   const holidaySet = new Set(holidays);
 
   const items: InvoiceItem[] = classes.map((c) => {
+    if (c.billingType === 'flat_monthly') {
+      const amount = round2(c.monthlyFee ?? 0);
+      return {
+        classId: c.classId, className: c.className, daysOfWeek: c.daysOfWeek,
+        timeLabel: timeLabel(c.startTime, c.endTime),
+        scheduledSessions: 0, holidaySessions: 0, absentSessions: 0,
+        sessions: 0, unitPrice: amount, amount,
+      };
+    }
     const classDates = listClassDatesInMonth(period.year, period.month, c.daysOfWeek);
     const afterHolidays = classDates.filter((d) => !holidaySet.has(d));
 
