@@ -51,6 +51,26 @@ export async function generateInvoiceForStudent(
   const hol = holidays ?? (await loadHolidays(db, year, month));
   const computed = computeStudentInvoice(classes, absences, hol, { year, month });
 
+  // 지난달 미납분 자동 이월
+  const prevYear = month === 1 ? year - 1 : year;
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const { data: prev } = await db
+    .from('invoices')
+    .select('total, status')
+    .eq('student_id', studentId).eq('period_year', prevYear).eq('period_month', prevMonth)
+    .maybeSingle();
+  if (prev && prev.status !== 'paid') {
+    const outstanding = Number(prev.total) || 0;
+    if (outstanding > 0) {
+      computed.adjustments = [
+        ...computed.adjustments,
+        { label: `${prevYear}.${prevMonth} 미납분 이월`, amount: outstanding },
+      ];
+      computed.total = computed.subtotal
+        + computed.adjustments.reduce((sm, a) => sm + Number(a.amount), 0);
+    }
+  }
+
   const { data: inv, error: e3 } = await db
     .from('invoices')
     .upsert({

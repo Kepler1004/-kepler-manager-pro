@@ -5,6 +5,7 @@ import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase-server';
 import InvoiceSend from './send';
 import InvoiceItemsEditor from './edit';
+import { StatusToggle, AdjustmentRow, AddAdjustment } from './adjust';
 
 const DOW = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -32,7 +33,10 @@ export default async function InvoiceDetail({ params }: { params: Promise<{ id: 
             <p className="text-slate-500">{inv.period_year}.{inv.period_month} · {stu?.name}</p>
             <p className="text-xs text-slate-400">{stu?.guardian_email}</p>
           </div>
-          <InvoiceSend invoiceId={inv.id} status={inv.status} />
+          <div className="flex items-center gap-2">
+            <StatusToggle invoiceId={inv.id} status={inv.status} />
+            <InvoiceSend invoiceId={inv.id} status={inv.status} />
+          </div>
         </div>
 
         <InvoiceItemsEditor invoiceId={inv.id} items={items as any} />
@@ -40,10 +44,11 @@ export default async function InvoiceDetail({ params }: { params: Promise<{ id: 
         <div className="mt-4 space-y-1 text-right text-sm">
           <div>{t('common.subtotal')}: {inv.currency} {Number(inv.subtotal).toFixed(2)}</div>
           {(inv.adjustments ?? []).map((a: any, i: number) => (
-            <div key={i} className="text-slate-500">{a.label}: {inv.currency} {Number(a.amount).toFixed(2)}</div>
+            <AdjustmentRow key={i} invoiceId={inv.id} index={i} label={a.label} amount={a.amount} currency={inv.currency} />
           ))}
           <div className="text-lg font-bold">{t('common.total')}: {inv.currency} {Number(inv.total).toFixed(2)}</div>
         </div>
+        <AddAdjustment invoiceId={inv.id} />
       </div>
     </div>
   );
