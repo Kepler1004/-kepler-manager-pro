@@ -8,7 +8,7 @@ import { getCurrentProfile, canAccess } from '@/lib/guards';
 const NAV = [
   ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'],
   ['timetable', '/timetable'], ['absences', '/absences'], ['holidays', '/holidays'],
-  ['invoices', '/invoices'], ['payslips', '/payslips'], ['vacations', '/vacations'],
+  ['invoices', '/invoices'], ['finance', '/finance'], ['payslips', '/payslips'], ['vacations', '/vacations'],
   ['admins', '/admins'],
 ] as const;
 

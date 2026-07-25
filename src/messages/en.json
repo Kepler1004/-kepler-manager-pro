@@ -19,7 +19,8 @@
     "holidays": "Holidays",
     "timetable": "Weekly Timetable",
     "vacations": "Leave",
-    "camp_pro": "Camp Pro"
+    "camp_pro": "Camp Pro",
+    "finance": "Finance"
   },
   "common": {
     "save": "Save",
@@ -49,7 +50,8 @@
     "wed": "Wed",
     "thu": "Thu",
     "fri": "Fri",
-    "sat": "Sat"
+    "sat": "Sat",
+    "view": "View"
   },
   "dashboard": {
     "welcome": "Welcome, {name}",
@@ -300,5 +302,25 @@
     "role_admin": "Admin A",
     "role_admin_b": "Admin B",
     "role_teacher": "Teacher"
+  },
+  "finance": {
+    "title": "Monthly P&L",
+    "income": "Income (billed)",
+    "paid_income": "Paid",
+    "total_expense": "Total expense",
+    "profit": "Profit",
+    "margin": "Margin",
+    "expense_breakdown": "Expense by category",
+    "expense_list": "Expenses",
+    "cat_payroll": "Payroll",
+    "cat_electricity": "Electricity",
+    "cat_water": "Water",
+    "cat_internet": "Internet",
+    "cat_water_purifier": "Water purifier",
+    "cat_stationery": "Stationery",
+    "cat_etc": "Other",
+    "auto": "auto",
+    "memo": "Memo",
+    "no_expense": "No expenses"
   }
 }

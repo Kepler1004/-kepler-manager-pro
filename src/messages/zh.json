@@ -19,7 +19,8 @@
     "holidays": "公休日",
     "timetable": "每周课程表",
     "vacations": "休假管理",
-    "camp_pro": "Camp Pro"
+    "camp_pro": "Camp Pro",
+    "finance": "损益"
   },
   "common": {
     "save": "保存",
@@ -49,7 +50,8 @@
     "wed": "三",
     "thu": "四",
     "fri": "五",
-    "sat": "六"
+    "sat": "六",
+    "view": "查看"
   },
   "dashboard": {
     "welcome": "您好，{name}",
@@ -300,5 +302,25 @@
     "role_admin": "管理员A",
     "role_admin_b": "管理员B",
     "role_teacher": "老师"
+  },
+  "finance": {
+    "title": "月度损益",
+    "income": "收入(账单)",
+    "paid_income": "已缴",
+    "total_expense": "总支出",
+    "profit": "利润",
+    "margin": "利润率",
+    "expense_breakdown": "分类支出",
+    "expense_list": "支出明细",
+    "cat_payroll": "工资",
+    "cat_electricity": "电费",
+    "cat_water": "水费",
+    "cat_internet": "网络",
+    "cat_water_purifier": "饮水机",
+    "cat_stationery": "文具",
+    "cat_etc": "其他",
+    "auto": "自动",
+    "memo": "备注",
+    "no_expense": "暂无支出"
   }
 }

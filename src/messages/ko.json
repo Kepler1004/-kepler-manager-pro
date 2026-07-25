@@ -19,7 +19,8 @@
     "holidays": "공휴일",
     "timetable": "주간 시간표",
     "vacations": "휴가 관리",
-    "camp_pro": "Camp Pro"
+    "camp_pro": "Camp Pro",
+    "finance": "손익"
   },
   "common": {
     "save": "저장",
@@ -49,7 +50,8 @@
     "wed": "수",
     "thu": "목",
     "fri": "금",
-    "sat": "토"
+    "sat": "토",
+    "view": "조회"
   },
   "dashboard": {
     "welcome": "안녕하세요, {name}님",
@@ -300,5 +302,25 @@
     "role_admin": "관리자A",
     "role_admin_b": "관리자B",
     "role_teacher": "선생님"
+  },
+  "finance": {
+    "title": "월별 손익",
+    "income": "수입 (청구 합계)",
+    "paid_income": "납부완료",
+    "total_expense": "총지출",
+    "profit": "수익금",
+    "margin": "수익률",
+    "expense_breakdown": "지출 항목별",
+    "expense_list": "지출 내역",
+    "cat_payroll": "급여",
+    "cat_electricity": "전기세",
+    "cat_water": "수도세",
+    "cat_internet": "인터넷",
+    "cat_water_purifier": "정수기",
+    "cat_stationery": "문구류",
+    "cat_etc": "기타",
+    "auto": "자동",
+    "memo": "메모",
+    "no_expense": "지출 없음"
   }
 }
