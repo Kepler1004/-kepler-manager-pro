@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { createClient } from '@/lib/supabase-server';
 import StudentDetailClient from './ui';
+import StudentInvoiceRegen from '@/components/StudentInvoiceRegen';
 
 export default async function StudentDetail({ params }: { params: Promise<{ id: string }> }) {
   await requireSection('students');
@@ -29,6 +30,7 @@ export default async function StudentDetail({ params }: { params: Promise<{ id: 
   return (
     <div className="max-w-3xl">
       <Link href="/students" className="text-sm text-indigo-600">← {t('nav.students')}</Link>
+      <StudentInvoiceRegen studentId={student.id} />
       <StudentDetailClient student={student} notes={notes ?? []} enrollments={(enrollments ?? []) as any} />
     </div>
   );

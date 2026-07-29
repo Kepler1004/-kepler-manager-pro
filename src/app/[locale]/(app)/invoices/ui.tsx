@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { deleteInvoice, deleteInvoicesBulk } from './[id]/actions';
 import { StatusToggle } from './[id]/adjust';
+import RegenInvoiceButton from '@/components/RegenInvoiceButton';
 
 type Inv = { id: string; period_year: number; period_month: number; total: number; status: string; currency: string; students: any };
 
@@ -101,6 +102,7 @@ export default function InvoicesClient({ invoices }: { invoices: Inv[] }) {
                 <td className="px-4 py-2 text-right">{inv.currency} {Number(inv.total).toFixed(2)}</td>
                 <td className="px-4 py-2"><StatusToggle invoiceId={inv.id} status={inv.status} /></td>
                 <td className="px-4 py-2 text-right whitespace-nowrap">
+                  <RegenInvoiceButton invoiceId={inv.id} label="갱신" className="mr-2 rounded-md border border-indigo-300 px-3 py-1 text-xs text-indigo-700 hover:bg-indigo-50" />
                   <button disabled={busy} onClick={() => send({ invoiceId: inv.id })} className="mr-2 rounded-md bg-slate-900 px-3 py-1 text-xs text-white disabled:opacity-50">{t('invoice.send_email')}</button>
                   <form action={deleteInvoice} className="inline" onSubmit={(e) => { if (!confirm(t('invoice.confirm_delete'))) e.preventDefault(); }}>
                     <input type="hidden" name="invoice_id" value={inv.id} />
