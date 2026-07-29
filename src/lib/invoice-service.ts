@@ -132,3 +132,18 @@ export async function generateInvoicesForPeriod(year: number, month: number) {
   }
   return results;
 }
+
+
+/** 해당 학생·연·월 고지서가 이미 있을 때만 재계산. 없으면 아무 것도 안 함. */
+export async function regenerateInvoiceIfExists(
+  studentId: string, year: number, month: number
+): Promise<GenerateResult | null> {
+  const db = createAdminClient();
+  const { data: existing } = await db
+    .from('invoices')
+    .select('id')
+    .eq('student_id', studentId).eq('period_year', year).eq('period_month', month)
+    .maybeSingle();
+  if (!existing) return null;
+  return generateInvoiceForStudent(studentId, year, month);
+}

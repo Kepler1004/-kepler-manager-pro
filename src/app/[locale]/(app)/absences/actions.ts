@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase-server';
+import { regenerateInvoiceIfExists } from '@/lib/invoice-service';
 
 export async function addAbsence(formData: FormData) {
   const db = await createClient();
@@ -34,13 +35,26 @@ export async function addAbsence(formData: FormData) {
   const { error } = await db.from('planned_absences')
     .upsert(rows, { onConflict: 'student_id,class_id,absence_date' });
   if (error) throw new Error(error.message);
+
+  const _months = Array.from(new Set(dates.map((d) => d.slice(0, 7))));
+  for (const ym of _months) {
+    const [y, m] = ym.split('-').map(Number);
+    try { await regenerateInvoiceIfExists(student_id, y, m); } catch (e) { console.error('regen(absence add)', e); }
+  }
+
   revalidatePath('/absences');
 }
 
 export async function deleteAbsence(formData: FormData) {
   const db = await createClient();
   const id = String(formData.get('id'));
+  const { data: _row } = await db.from('planned_absences')
+    .select('student_id, absence_date').eq('id', id).maybeSingle();
   const { error } = await db.from('planned_absences').delete().eq('id', id);
   if (error) throw new Error(error.message);
+  if (_row) {
+    const [y, m] = String(_row.absence_date).slice(0, 7).split('-').map(Number);
+    try { await regenerateInvoiceIfExists(_row.student_id, y, m); } catch (e) { console.error('regen(absence delete)', e); }
+  }
   revalidatePath('/absences');
 }
