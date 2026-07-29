@@ -147,3 +147,17 @@ export async function regenerateInvoiceIfExists(
   if (!existing) return null;
   return generateInvoiceForStudent(studentId, year, month);
 }
+
+
+/** 해당 월 고지서 배치가 이미 시작됐으면(누군가 고지서가 있으면) 이 학생 것도 생성/갱신. 아니면 아무 것도 안 함. */
+export async function syncStudentInvoiceIfPeriodStarted(
+  studentId: string, year: number, month: number
+): Promise<GenerateResult | null> {
+  const db = createAdminClient();
+  const { count } = await db
+    .from('invoices')
+    .select('id', { count: 'exact', head: true })
+    .eq('period_year', year).eq('period_month', month);
+  if (!count) return null;
+  return generateInvoiceForStudent(studentId, year, month);
+}

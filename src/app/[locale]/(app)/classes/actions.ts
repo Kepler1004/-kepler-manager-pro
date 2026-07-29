@@ -1,6 +1,12 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase-server';
+import { regenerateInvoiceIfExists, syncStudentInvoiceIfPeriodStarted } from '@/lib/invoice-service';
+function _nextPeriodMY() {
+  const d = new Date(Date.now() + 8 * 60 * 60 * 1000);
+  const y = d.getUTCFullYear(); const m = d.getUTCMonth() + 1;
+  return m === 12 ? { year: y + 1, month: 1 } : { year: y, month: m + 1 };
+}
 
 function parseClass(formData: FormData) {
   const g = (k: string) => { const v = formData.get(k); return v === null || v === '' ? null : String(v); };
@@ -67,6 +73,10 @@ export async function enrollStudent(formData: FormData) {
   const { error } = await db.from('enrollments')
     .upsert({ class_id, student_id, status: 'active' }, { onConflict: 'student_id,class_id' });
   if (error) throw new Error(error.message);
+  {
+    const { year, month } = _nextPeriodMY();
+    try { await syncStudentInvoiceIfPeriodStarted(student_id, year, month); revalidatePath('/invoices'); } catch (e) { console.error('regen enroll', e); }
+  }
   revalidatePath('/classes');
 }
 
@@ -77,5 +87,9 @@ export async function unenrollStudent(formData: FormData) {
   const { error } = await db.from('enrollments').delete()
     .eq('class_id', class_id).eq('student_id', student_id);
   if (error) throw new Error(error.message);
+  {
+    const { year, month } = _nextPeriodMY();
+    try { await regenerateInvoiceIfExists(student_id, year, month); revalidatePath('/invoices'); } catch (e) { console.error('regen unenroll', e); }
+  }
   revalidatePath('/classes');
 }
