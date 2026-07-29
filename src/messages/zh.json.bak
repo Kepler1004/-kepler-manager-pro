@@ -86,12 +86,7 @@
     "sort_grade": "按年级",
     "sort_school": "按学校",
     "sort_created": "按注册日",
-    "sort_total": "按金额",
-    "charges_title": "折扣与额外费用",
-    "discount_rate": "折扣率",
-    "registration_fee": "注册费",
-    "textbook_fee": "教材费",
-    "charges_hint": "折扣仅适用于学费小计。注册费和教材费将计入总额。"
+    "sort_total": "按金额"
   },
   "payslip": {
     "title": "教师工资单",

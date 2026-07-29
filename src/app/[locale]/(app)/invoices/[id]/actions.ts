@@ -4,12 +4,28 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase-server';
 import { requireSection } from '@/lib/guards';
 
+function round2(n: number) { return Math.round((n + Number.EPSILON) * 100) / 100; }
+
 async function recompute(db: any, invoiceId: string) {
-  const { data: inv } = await db.from('invoices').select('adjustments').eq('id', invoiceId).single();
+  const { data: inv } = await db
+    .from('invoices')
+    .select('adjustments, discount_rate, registration_fee, textbook_fee')
+    .eq('id', invoiceId).single();
   const { data: items } = await db.from('invoice_items').select('amount').eq('invoice_id', invoiceId);
-  const subtotal = (items ?? []).reduce((s: number, it: any) => s + Number(it.amount), 0);
+
+  const subtotal = round2((items ?? []).reduce((s: number, it: any) => s + Number(it.amount), 0));
   const adj = (inv?.adjustments ?? []).reduce((s: number, a: any) => s + Number(a.amount), 0);
-  await db.from('invoices').update({ subtotal, total: subtotal + adj }).eq('id', invoiceId);
+
+  const rawRate = Number(inv?.discount_rate || 0);
+  const discountRate = rawRate < 0 ? 0 : rawRate > 100 ? 100 : rawRate;
+  const registrationFee = Number(inv?.registration_fee || 0);
+  const textbookFee = Number(inv?.textbook_fee || 0);
+  const discountAmount = round2(subtotal * (discountRate / 100));
+
+  const total = round2(subtotal - discountAmount + registrationFee + textbookFee + adj);
+  await db.from('invoices')
+    .update({ subtotal, discount_amount: discountAmount, total })
+    .eq('id', invoiceId);
 }
 
 export async function updateInvoiceItem(formData: FormData) {
@@ -32,6 +48,24 @@ export async function deleteInvoiceItem(formData: FormData) {
   const itemId = String(formData.get('item_id'));
   const invoiceId = String(formData.get('invoice_id'));
   const { error } = await db.from('invoice_items').delete().eq('id', itemId);
+  if (error) throw new Error(error.message);
+  await recompute(db, invoiceId);
+  revalidatePath(`/invoices/${invoiceId}`);
+}
+
+export async function updateInvoiceCharges(formData: FormData) {
+  await requireSection('invoices');
+  const db = await createClient();
+  const invoiceId = String(formData.get('invoice_id'));
+
+  const rawRate = Number(formData.get('discount_rate') || 0);
+  const discount_rate = rawRate < 0 ? 0 : rawRate > 100 ? 100 : rawRate;
+  const registration_fee = Math.max(0, Number(formData.get('registration_fee') || 0));
+  const textbook_fee = Math.max(0, Number(formData.get('textbook_fee') || 0));
+
+  const { error } = await db.from('invoices')
+    .update({ discount_rate, registration_fee, textbook_fee })
+    .eq('id', invoiceId);
   if (error) throw new Error(error.message);
   await recompute(db, invoiceId);
   revalidatePath(`/invoices/${invoiceId}`);
@@ -60,7 +94,7 @@ export async function addAdjustment(formData: FormData) {
   if (!amount) throw new Error('amount_required');
 
   const { data: inv } = await db.from('invoices').select('adjustments').eq('id', invoiceId).single();
-  const next = [...(inv?.adjustments ?? []), { label, amount }];
+  const next = [...(inv?.adjustments ?? []), {label, amount }];
   const { error } = await db.from('invoices').update({ adjustments: next }).eq('id', invoiceId);
   if (error) throw new Error(error.message);
   await recompute(db, invoiceId);

@@ -1,7 +1,6 @@
 /**
  * invoice-service.ts — 고지서 생성 (Supabase) + 복수요일 + 공휴일.
  * 재생성 시 납부 상태(status / paid_at / paid_amount / sent_at)를 보존합니다.
- * 재생성 시 사용자가 입력한 할인율/등록비/교재비도 보존해서 다시 반영합니다.
  */
 import { createAdminClient } from './supabase-admin';
 import { computeStudentInvoice, type BillableClass, type PlannedAbsence, type Weekday } from './billing';
@@ -32,7 +31,7 @@ export async function generateInvoiceForStudent(
     .eq('student_id', studentId).eq('status', 'active');
   if (e1) throw e1;
 
-  const classes: BillableClass[] = (enrolls ??[])
+  const classes: BillableClass[] = (enrolls ?? [])
     .map((r: any) => r.classes).filter((c: any) => c && c.is_active)
     .map((c: any) => {
       const days: Weekday[] = (c.days && c.days.length ? c.days : [c.day_of_week]) as Weekday[];
@@ -51,25 +50,12 @@ export async function generateInvoiceForStudent(
   if (e2) throw e2;
   const absences: PlannedAbsence[] = (abs ?? []).map((a: any) => ({ classId: a.class_id, date: a.absence_date }));
 
-  // 기존 고지서가 있으면 사용자가 입력한 할인/수수료 값을 읽어와 보존
-  const { data: existing } = await db
-    .from('invoices')
-    .select('id, discount_rate, registration_fee, textbook_fee')
-    .eq('student_id', studentId).eq('period_year', year).eq('period_month', month)
-    .maybeSingle();
-
-  const charges = {
-    discountRate: existing?.discount_rate != null ? Number(existing.discount_rate) : 0,
-    registrationFee: existing?.registration_fee != null ? Number(existing.registration_fee) : 0,
-    textbookFee: existing?.textbook_fee != null ? Number(existing.textbook_fee) : 0,
-  };
-
   const hol = holidays ?? (await loadHolidays(db, year, month));
-  const computed = computeStudentInvoice(classes, absences, hol, { year, month }, [], charges);
+  const computed = computeStudentInvoice(classes, absences, hol, { year, month });
 
   // 지난달 미납분 자동 이월
   const prevYear = month === 1 ? year - 1 : year;
-  const prevMonth = month === 1 ? 12 : month -1;
+  const prevMonth = month === 1 ? 12 : month - 1;
   const { data: prev } = await db
     .from('invoices')
     .select('total, status')
@@ -83,25 +69,23 @@ export async function generateInvoiceForStudent(
         { label: `${prevYear}.${prevMonth} 미납분 이월`, amount: outstanding },
       ];
       computed.total = computed.subtotal
-        - computed.discountAmount
-        + computed.registrationFee
-        + computed.textbookFee
         + computed.adjustments.reduce((sm, a) => sm + Number(a.amount), 0);
-      computed.total = Math.round((computed.total + Number.EPSILON) * 100) / 100;
     }
   }
 
   // 납부 상태 보존: 기존 고지서가 있으면 계산값만 갱신, 없으면 draft 로 신규 생성
+  const { data: existing } = await db
+    .from('invoices')
+    .select('id')
+    .eq('student_id', studentId).eq('period_year', year).eq('period_month', month)
+    .maybeSingle();
+
   let invoiceId: string;
   if (existing) {
     const { data: upd, error: e3 } = await db
       .from('invoices')
       .update({
         subtotal: computed.subtotal,
-        discount_rate: computed.discountRate,
-        discount_amount: computed.discountAmount,
-        registration_fee: computed.registrationFee,
-        textbook_fee: computed.textbookFee,
         adjustments: computed.adjustments,
         total: computed.total,
       })
@@ -114,12 +98,7 @@ export async function generateInvoiceForStudent(
       .from('invoices')
       .insert({
         student_id: studentId, period_year: year, period_month: month, status: 'draft',
-        subtotal: computed.subtotal,
-        discount_rate: computed.discountRate,
-        discount_amount: computed.discountAmount,
-        registration_fee: computed.registrationFee,
-        textbook_fee: computed.textbookFee,
-        adjustments: computed.adjustments, total: computed.total,
+        subtotal: computed.subtotal, adjustments: computed.adjustments, total: computed.total,
       })
       .select('id').single();
     if (e3) throw e3;
@@ -177,7 +156,7 @@ export async function syncStudentInvoiceIfPeriodStarted(
   const db = createAdminClient();
   const { count } = await db
     .from('invoices')
-    .select('id', { count: 'exact', head: true})
+    .select('id', { count: 'exact', head: true })
     .eq('period_year', year).eq('period_month', month);
   if (!count) return null;
   return generateInvoiceForStudent(studentId, year, month);

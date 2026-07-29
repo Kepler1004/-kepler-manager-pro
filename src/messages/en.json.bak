@@ -86,12 +86,7 @@
     "sort_grade": "By grade",
     "sort_school": "By school",
     "sort_created": "By registered",
-    "sort_total": "By amount",
-    "charges_title": "Discount & Extra Fees",
-    "discount_rate": "Discount rate",
-    "registration_fee": "Registration fee",
-    "textbook_fee": "Textbook fee",
-    "charges_hint": "The discount applies to the tuition subtotal only. Registration and textbook fees are added to the total."
+    "sort_total": "By amount"
   },
   "payslip": {
     "title": "Teacher Payslip",

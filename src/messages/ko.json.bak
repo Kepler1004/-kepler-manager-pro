@@ -86,12 +86,7 @@
     "sort_grade": "학년순",
     "sort_school": "학교순",
     "sort_created": "등록일순",
-    "sort_total": "금액순",
-    "charges_title": "할인 · 추가 비용",
-    "discount_rate": "할인율",
-    "registration_fee": "등록비",
-    "textbook_fee": "교재비",
-    "charges_hint": "할인율은 수업료 소계에만 적용됩니다. 등록비·교재비는 총액에 더해집니다."
+    "sort_total": "금액순"
   },
   "payslip": {
     "title": "선생님 급여 명세서",
