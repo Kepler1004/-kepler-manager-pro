@@ -19,7 +19,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const nav = NAV.filter(([key]) => canAccess(role, key));
   const englishProUrl = process.env.NEXT_PUBLIC_ENGLISH_PRO_URL ?? '#';
   const mathProUrl = process.env.NEXT_PUBLIC_MATH_PRO_URL ?? '#';
-  const campProUrl = process.env.NEXT_PUBLIC_CAMP_PRO_URL ?? 'https://kepler-edu.com';
+  const campProUrl = process.env.NEXT_PUBLIC_CAMP_PRO_URL ?? 'https://kepler-camp-pro.vercel.app';
 
   return (
     <div className="flex min-h-screen">
