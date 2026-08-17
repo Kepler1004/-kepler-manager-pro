@@ -29,7 +29,7 @@ export async function DailyReportBoard() {
         </div>
       </div>
       <DeadlineAlertBar items={imminent} />
-      <div className="flex gap-3 overflow-x-auto pb-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {reports.length === 0 ? (
           <p className="text-sm text-gray-400">{t('empty')}</p>
         ) : (
