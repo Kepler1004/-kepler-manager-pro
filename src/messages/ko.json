@@ -20,7 +20,8 @@
     "timetable": "주간 시간표",
     "vacations": "휴가 관리",
     "camp_pro": "Camp Pro",
-    "finance": "손익"
+    "finance": "손익",
+    "daily-report": "일일 업무 작성"
   },
   "common": {
     "save": "저장",
@@ -306,7 +307,14 @@
     "role_master": "마스터",
     "role_admin": "관리자A",
     "role_admin_b": "관리자B",
-    "role_teacher": "선생님"
+    "role_teacher": "선생님",
+    "write_title": "오늘의 업무 보고",
+    "write_desc": "퇴근 전에 아래 항목을 작성해주세요.",
+    "add_item": "+ 항목 추가",
+    "placeholder_item": "내용을 입력하세요",
+    "submit": "제출하기",
+    "already_submitted_title": "오늘 업무 보고를 이미 작성하셨습니다",
+    "already_submitted_desc": "수고하셨습니다! 내일 다시 뵙겠습니다."
   },
   "finance": {
     "title": "월별 손익",

@@ -13,11 +13,12 @@ const ACCESS: Record<string, Role[]> = {
   absences:  ['master', 'admin', 'admin_b', 'teacher'],
   holidays:  ['master', 'admin', 'admin_b', 'teacher'],
   invoices:  ['master', 'admin', 'admin_b'],
-  payslips:  ['master', 'admin'],                 // 관리자B 제외
+  payslips:  ['master', 'admin'],   // 관리자B 제외
   vacations: ['master', 'admin', 'admin_b'],
   admins:    ['master', 'admin', 'admin_b'],
   pricing:   ['master', 'admin', 'admin_b'],
   salaries:  ['master', 'admin', 'admin_b'],
+  'daily-report': ['master', 'admin', 'admin_b', 'teacher'],
 };
 
 export function canAccess(role: string | null | undefined, section: string): boolean {
@@ -26,7 +27,7 @@ export function canAccess(role: string | null | undefined, section: string): boo
 }
 
 export function homeFor(role: string | null | undefined): string {
-  return role === 'teacher' ? '/timetable' : '/dashboard';
+  return role === 'teacher' ? '/daily-report' : '/dashboard';
 }
 
 export async function getCurrentProfile() {

@@ -8,7 +8,7 @@ const handleIntl = createIntlMiddleware(routing);
 // 로그인 필요한 앱 섹션
 const APP_SECTIONS = [
   'dashboard', 'students', 'classes', 'timetable', 'pricing', 'salaries',
-  'absences', 'holidays', 'invoices', 'payslips', 'admins',
+  'absences', 'holidays', 'invoices', 'payslips', 'admins', 'daily-report',
 ];
 
 export async function middleware(request: NextRequest) {
@@ -38,9 +38,19 @@ export async function middleware(request: NextRequest) {
   if (!user && APP_SECTIONS.includes(section)) {
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
+
   if (user && section === 'login') {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+    // 역할에 따라 로그인 직후 목적지를 분기 (teacher는 일일 업무 작성 화면으로 직행)
+    let target = 'dashboard';
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    if (profile?.role === 'teacher') target = 'daily-report';
+    return NextResponse.redirect(new URL(`/${locale}/${target}`, request.url));
   }
+
   return response;
 }
 

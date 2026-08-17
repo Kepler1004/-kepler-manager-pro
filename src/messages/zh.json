@@ -20,7 +20,8 @@
     "timetable": "每周课程表",
     "vacations": "休假管理",
     "camp_pro": "Camp Pro",
-    "finance": "损益"
+    "finance": "损益",
+    "daily-report": "每日工作汇报"
   },
   "common": {
     "save": "保存",
@@ -306,7 +307,14 @@
     "role_master": "总管理员",
     "role_admin": "管理员A",
     "role_admin_b": "管理员B",
-    "role_teacher": "老师"
+    "role_teacher": "老师",
+    "write_title": "今日工作汇报",
+    "write_desc": "请在下班前填写以下内容。",
+    "add_item": "+ 添加项目",
+    "placeholder_item": "请输入内容",
+    "submit": "提交",
+    "already_submitted_title": "您今天已提交工作汇报",
+    "already_submitted_desc": "辛苦了!明天见。"
   },
   "finance": {
     "title": "月度损益",

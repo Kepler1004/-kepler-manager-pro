@@ -6,7 +6,8 @@ import { getCurrentProfile, canAccess } from '@/lib/guards';
 
 // 수업료 단가/선생님 급여는 메뉴에서 숨김(수업 관리 폼에서 편집)
 const NAV = [
-  ['dashboard', '/dashboard'], ['students', '/students'], ['classes', '/classes'],
+  ['dashboard', '/dashboard'], ['daily-report', '/daily-report'],
+  ['students', '/students'], ['classes', '/classes'],
   ['timetable', '/timetable'], ['absences', '/absences'], ['holidays', '/holidays'],
   ['invoices', '/invoices'], ['finance', '/finance'], ['payslips', '/payslips'], ['vacations', '/vacations'],
   ['admins', '/admins'],
@@ -18,7 +19,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const role = me?.role ?? 'teacher';
   const nav = NAV.filter(([key]) => canAccess(role, key));
   const englishProUrl = process.env.NEXT_PUBLIC_ENGLISH_PRO_URL ?? '#';
-  const mathProUrl = process.env.NEXT_PUBLIC_MATH_PRO_URL ?? '#';
+  const mathProUrl = process.env.NEXT_PUBLIC_MATH_PRO_URL ?? 'https://generator.interactive-maths.com/';
   const campProUrl = process.env.NEXT_PUBLIC_CAMP_PRO_URL ?? 'https://kepler-camp-pro.vercel.app';
 
   return (

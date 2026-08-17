@@ -20,7 +20,8 @@
     "timetable": "Weekly Timetable",
     "vacations": "Leave",
     "camp_pro": "Camp Pro",
-    "finance": "Finance"
+    "finance": "Finance",
+    "daily-report": "Daily Report"
   },
   "common": {
     "save": "Save",
@@ -306,7 +307,14 @@
     "role_master": "Master",
     "role_admin": "Admin A",
     "role_admin_b": "Admin B",
-    "role_teacher": "Teacher"
+    "role_teacher": "Teacher",
+    "write_title": "Today's Work Report",
+    "write_desc": "Please fill in the items below before you leave for the day.",
+    "add_item": "+ Add item",
+    "placeholder_item": "Enter details",
+    "submit": "Submit",
+    "already_submitted_title": "You've already submitted today's report",
+    "already_submitted_desc": "Great work today! See you tomorrow."
   },
   "finance": {
     "title": "Monthly P&L",
