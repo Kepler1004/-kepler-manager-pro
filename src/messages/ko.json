@@ -314,7 +314,9 @@
     "placeholder_item": "내용을 입력하세요",
     "submit": "제출하기",
     "already_submitted_title": "오늘 업무 보고를 이미 작성하셨습니다",
-    "already_submitted_desc": "수고하셨습니다! 내일 다시 뵙겠습니다."
+    "already_submitted_desc": "수고하셨습니다! 내일 다시 뵙겠습니다.",
+    "click_to_mark_done": "클릭하면 '오늘 한 일'로 이동",
+    "readonly": "읽기 전용"
   },
   "finance": {
     "title": "월별 손익",

@@ -314,7 +314,9 @@
     "placeholder_item": "Enter details",
     "submit": "Submit",
     "already_submitted_title": "You've already submitted today's report",
-    "already_submitted_desc": "Great work today! See you tomorrow."
+    "already_submitted_desc": "Great work today! See you tomorrow.",
+    "click_to_mark_done": "Click to mark as 'Done Today'",
+    "readonly": "Read-only"
   },
   "finance": {
     "title": "Monthly P&L",

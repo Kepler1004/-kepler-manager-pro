@@ -314,7 +314,9 @@
     "placeholder_item": "请输入内容",
     "submit": "提交",
     "already_submitted_title": "您今天已提交工作汇报",
-    "already_submitted_desc": "辛苦了!明天见。"
+    "already_submitted_desc": "辛苦了!明天见。",
+    "click_to_mark_done": "点击将其标记为'今日完成'",
+    "readonly": "只读"
   },
   "finance": {
     "title": "月度损益",
