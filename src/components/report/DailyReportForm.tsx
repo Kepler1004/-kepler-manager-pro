@@ -7,11 +7,13 @@ type Item = { title: string; reason?: string };
 type Bucket = 'done' | 'added' | 'hold' | 'plan';
 
 const BUCKETS: Bucket[] = ['done', 'added', 'hold', 'plan'];
-const isAdmin = ['master', 'admin', 'admin_b'].includes(userRole ?? ''); const READONLY: Bucket[] = isAdmin ? [] : ['done', 'added', 'hold'];
+
 
 export function DailyReportForm({ existingTasks, userRole }: { existingTasks?: Task[]; userRole?: string }) {
   const t = useTranslations('report');
   const tasks = existingTasks ?? [];
+  const isAdmin = ['master', 'admin', 'admin_b'].includes(userRole ?? '');
+  const READONLY: Bucket[] = isAdmin ? [] : ['done', 'added', 'hold'];
 
   const [items, setItems] = useState<Record<Bucket, Item[]>>({
     done: tasks.filter((x) => x.bucket === 'done').map((x) => ({ title: x.title })),
