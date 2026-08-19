@@ -7,9 +7,9 @@ type Item = { title: string; reason?: string };
 type Bucket = 'done' | 'added' | 'hold' | 'plan';
 
 const BUCKETS: Bucket[] = ['done', 'added', 'hold', 'plan'];
-const READONLY: Bucket[] = ['done', 'added', 'hold'];
+const isAdmin = ['master', 'admin', 'admin_b'].includes(userRole ?? ''); const READONLY: Bucket[] = isAdmin ? [] : ['done', 'added', 'hold'];
 
-export function DailyReportForm({ existingTasks }: { existingTasks?: Task[] }) {
+export function DailyReportForm({ existingTasks, userRole }: { existingTasks?: Task[]; userRole?: string }) {
   const t = useTranslations('report');
   const tasks = existingTasks ?? [];
 

@@ -17,6 +17,13 @@ export default async function DailyReportPage() {
     .eq('report_date', today)
     .maybeSingle();
 
+  const { data: tasks } = await sb
+    .from('tasks')
+    .select('*')
+    .eq('staff_id', me.id)
+    .eq('task_date', today)
+    .order('created_at', { ascending: true });
+
   if (report?.status === 'submitted') {
     return (
       <div className="mx-auto max-w-lg py-16 text-center">
@@ -31,7 +38,7 @@ export default async function DailyReportPage() {
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-1 text-2xl font-bold">{t('write_title')}</h1>
       <p className="mb-6 text-sm text-slate-500">{t('write_desc')}</p>
-      <DailyReportForm />
+      <DailyReportForm existingTasks={tasks ?? []} userRole={me.role} />
     </div>
   );
 }
