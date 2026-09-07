@@ -8,7 +8,8 @@ export default async function PayslipsPage({ searchParams }: { searchParams: Pro
   const t = await getTranslations();
   const sp = await searchParams;
   const now = new Date();
-  const def = new Date(now.getFullYear(), now.getMonth() + 1, 1); // 기본: 다음 달(고지서 기간)
+  // 기본: 지난 달 (급여는 매월 1일에 지난 달 정산이 원칙)
+  const def = new Date(now.getFullYear(), now.getMonth() - 1, 1);
   const year = Number(sp.y) || def.getFullYear();
   const month = Number(sp.m) || (def.getMonth() + 1);
 
