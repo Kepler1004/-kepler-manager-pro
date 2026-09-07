@@ -32,8 +32,14 @@ async function classSessionLines(db: any, teacherId: string, year: number, month
     .select('class_id, sessions, invoices!inner(period_year, period_month)')
     .in('class_id', classIds).eq('invoices.period_year', year).eq('invoices.period_month', month);
 
+  // 반별 대표 회차. invoice_items 는 학생별로 존재하므로 sum 하면 학생 수만큼 부풀린다.
+  // 사전 결석으로 학생별로 값이 다를 수 있어 MAX(정상 진행 회차) 사용.
   const byClass = new Map<string, number>();
-  for (const it of items ?? []) byClass.set(it.class_id, (byClass.get(it.class_id) ?? 0) + Number(it.sessions));
+  for (const it of items ?? []) {
+    const cur = Number(it.sessions);
+    const prev = byClass.get(it.class_id) ?? 0;
+    if (cur > prev) byClass.set(it.class_id, cur);
+  }
 
   return classIds.map((cid: string) => {
     const sessions = byClass.get(cid) ?? 0;
@@ -68,6 +74,11 @@ export async function generatePayslipForTeacher(teacherId: string, year: number,
   const lineItems = await classSessionLines(db, teacherId, year, month);
   const sessionPay = round2(lineItems.reduce((s, li) => s + li.amount, 0));
 
+  // 담당 반 개수 확인 (프리랜서/수업료제 명세서 발행 대상 판정용)
+  const { count: assignedClassCount } = await db.from('classes')
+    .select('id', { count: 'exact', head: true }).eq('teacher_id', teacherId);
+  const hasAssignedClass = (assignedClassCount ?? 0) > 0;
+
   // 기존 명세서의 인센티브/보정 보존
   const { data: existing } = await db.from('payslips')
     .select('allowance, manual_adjust').eq('teacher_id', teacherId)
@@ -75,8 +86,16 @@ export async function generatePayslipForTeacher(teacherId: string, year: number,
   const allowance = existing ? Number(existing.allowance) : pay.allowance;
   const manualAdjust = existing ? Number(existing.manual_adjust) : 0;
 
-  // 고정급 아닌데 수업/지원금/보정 전부 0이면 스킵
-  if (pay.employmentType !== 'salaried_fixed' && sessionPay === 0 && allowance === 0 && manualAdjust === 0) return null;
+  // 스킵 조건: 고정급이 아니고, 담당 반도 없고, 지원금·보정도 없을 때만.
+  //  - salaried_fixed → 무조건 생성 (고정급이므로 회차 무관)
+  //  - freelancer/fulltime + 담당 반 있음 → 생성 (회차 0이면 RM 0 명세서)
+  //  - freelancer/fulltime + 담당 반 없음 + 지원금 0 + 보정 0 → 스킵
+  if (pay.employmentType !== 'salaried_fixed'
+      && !hasAssignedClass
+      && allowance === 0
+      && manualAdjust === 0) {
+    return null;
+  }
 
   const pr = computePayroll({
     employmentType: pay.employmentType, sessionPay, fixedBaseSalary: pay.fixedBaseSalary,
