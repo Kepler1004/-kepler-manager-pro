@@ -21,7 +21,8 @@
     "vacations": "Leave",
     "camp_pro": "Camp Pro",
     "finance": "Finance",
-    "daily-report": "Daily Report"
+    "daily-report": "Daily Report",
+    "commissions": "Counselor commission"
   },
   "common": {
     "save": "Save",
@@ -120,7 +121,8 @@
     "history_6m": "Last 6 months",
     "manual_adjust": "Manual adjust",
     "save_recompute": "Save & recompute",
-    "send_email": "Send PDF by email"
+    "send_email": "Send PDF by email",
+    "commission": "Commission"
   },
   "absence": {
     "title": "Planned Absence Records",
@@ -178,7 +180,14 @@
     "sort_school": "School",
     "sort_created": "Newest",
     "enrollments": "Enrolled classes",
-    "no_enrollment": "No enrolled classes"
+    "no_enrollment": "No enrolled classes",
+    "counselor": "Counselor",
+    "counselor_none": "None",
+    "counselor_former": "(former counselor)",
+    "program_type": "International / Local",
+    "program_international": "International",
+    "program_local": "Local",
+    "enrolled_date": "Enrolment date"
   },
   "klass": {
     "add": "Add class",
@@ -250,7 +259,21 @@
     "save": "Save",
     "cancel": "Cancel",
     "google_calendar_id": "Google Calendar ID (teacher)",
-    "work_days": "Work days"
+    "work_days": "Work days",
+    "is_counselor": "Counseling manager (auto commission)",
+    "hire_date": "Hire date",
+    "probation_months": "Probation (months)",
+    "goal_mode": "Goal rule",
+    "goal_mode_separate": "N per program separately",
+    "goal_mode_combined": "N combined (paid by majority program)",
+    "program_international": "International",
+    "program_local": "Local",
+    "cc_new": "New enrolment (each)",
+    "cc_goal": "Monthly goal",
+    "cc_people": "students → bonus",
+    "cc_retention": "Retention",
+    "cc_months": "months+ (per student)",
+    "counselor_hint": "Enter base salary in \"Fixed monthly base\" (RM 4,000) and petrol in \"Allowance\" (RM 300). Commission starts after probation and is added to each monthly payslip automatically."
   },
   "timetable": {
     "print": "Print",
@@ -337,5 +360,30 @@
     "auto": "auto",
     "memo": "Memo",
     "no_expense": "No expenses"
+  },
+  "commission": {
+    "title": "Counselor commission",
+    "view": "View",
+    "page_hint": "The same figures are added to the payslip when generated.",
+    "no_counselors": "No counselors. Tick \"Counseling manager\" in Admins → Payroll.",
+    "counselor": "Counselor",
+    "probation": "Probation",
+    "no_hire_date": "No hire date",
+    "in_probation": "On probation (from {date})",
+    "probation_end": "From {date}",
+    "new_intl": "New · International",
+    "new_local": "New · Local",
+    "new_pay": "New enrolment total",
+    "goal": "Goal bonus",
+    "goal_intl": "Goal bonus (Intl)",
+    "goal_local": "Goal bonus (Local)",
+    "retention": "Retention",
+    "total": "Commission total",
+    "grand_total": "Grand total",
+    "intl": "Intl",
+    "local": "Local",
+    "inactive": "inactive",
+    "excluded_probation": "Excluded (probation): {n}",
+    "missing_type": "Not counted — program type missing: {names}"
   }
 }

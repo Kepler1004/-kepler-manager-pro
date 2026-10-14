@@ -15,6 +15,7 @@ export interface PayrollInput {
   sessionPay: number;        // 그 달 수업료 합계
   fixedBaseSalary?: number;  // salaried_fixed 기본급
   allowance?: number;        // 인센티브/지원금 (+), 공제 대상 아님
+  commission?: number;       // 상담실장 성과급 (+), 공제 기준액에 포함 (EPF/PCB 대상 소득)
   manualAdjust?: number;     // 관리자 수동 보정 (+/-)
   config?: PayrollConfig;
 }
@@ -22,6 +23,7 @@ export interface PayrollInput {
 export interface Labeled { label: string; amount: number; }
 export interface PayrollResult {
   basePay: number;
+  commission: number;
   employeeDeductions: Labeled[];
   employerContributions: Labeled[];
   totalEmployeeDeduction: number;
@@ -44,6 +46,7 @@ export function computePayroll(input: PayrollInput): PayrollResult {
   const { employmentType, sessionPay } = input;
   const allowance = input.allowance ?? 0;
   const manualAdjust = input.manualAdjust ?? 0;
+  const commission = round2(input.commission ?? 0);
   const cfg = input.config ?? {};
 
   const basePay = employmentType === 'salaried_fixed'
@@ -52,27 +55,29 @@ export function computePayroll(input: PayrollInput): PayrollResult {
 
   if (employmentType === 'freelancer') {
     return {
-      basePay, employeeDeductions: [], employerContributions: [],
+      basePay, commission, employeeDeductions: [], employerContributions: [],
       totalEmployeeDeduction: 0, totalEmployerContribution: 0,
-      netPay: round2(basePay + allowance + manualAdjust),
+      netPay: round2(basePay + commission + allowance + manualAdjust),
     };
   }
 
   const empKeys: (keyof PayrollConfig)[] = ['pcb', 'epfEmployee', 'socsoEmployee', 'eisEmployee'];
   const erKeys: (keyof PayrollConfig)[] = ['epfEmployer', 'socsoEmployer', 'eisEmployer'];
 
+  // 공제 기준 = 기본급 + 성과급 (지원금/주유비는 제외)
+  const deductionBase = round2(basePay + commission);
   const employeeDeductions: Labeled[] = empKeys
-    .map((k) => ({ label: LABELS[k], amount: calc(basePay, cfg[k]) }))
+    .map((k) => ({ label: LABELS[k], amount: calc(deductionBase, cfg[k]) }))
     .filter((x) => x.amount !== 0);
   const employerContributions: Labeled[] = erKeys
-    .map((k) => ({ label: LABELS[k], amount: calc(basePay, cfg[k]) }))
+    .map((k) => ({ label: LABELS[k], amount: calc(deductionBase, cfg[k]) }))
     .filter((x) => x.amount !== 0);
 
   const totalEmployeeDeduction = round2(employeeDeductions.reduce((t, d) => t + d.amount, 0));
   const totalEmployerContribution = round2(employerContributions.reduce((t, d) => t + d.amount, 0));
-  const netPay = round2(basePay + allowance + manualAdjust - totalEmployeeDeduction);
+  const netPay = round2(basePay + commission + allowance + manualAdjust - totalEmployeeDeduction);
 
-  return { basePay, employeeDeductions, employerContributions, totalEmployeeDeduction, totalEmployerContribution, netPay };
+  return { basePay, commission, employeeDeductions, employerContributions, totalEmployeeDeduction, totalEmployerContribution, netPay };
 }
 
 export function round2(n: number): number {

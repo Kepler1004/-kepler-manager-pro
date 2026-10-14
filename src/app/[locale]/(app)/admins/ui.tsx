@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { createUserAccount, updateUserRole, toggleUserActive, updateUserInfo, deleteUserAccount, resetUserPassword } from './actions';
 import TeacherPayrollForm from '@/components/TeacherPayrollForm';
 
-type P = { id: string; full_name: string; email: string; role: string; is_active: boolean; phone?: string|null; employment_type?: string; tax_no?: string|null; ic_no?: string|null; epf_no?: string|null; bank_account?: string|null; allowance?: number; google_calendar_id?: string|null; work_days?: number[]|null; payroll_config?: any };
+type P = { id: string; full_name: string; email: string; role: string; is_active: boolean; phone?: string|null; employment_type?: string; tax_no?: string|null; ic_no?: string|null; epf_no?: string|null; bank_account?: string|null; allowance?: number; google_calendar_id?: string|null; work_days?: number[]|null; payroll_config?: any; is_counselor?: boolean|null; hire_date?: string|null; probation_months?: number|null; commission_config?: any };
 
 export default function AdminsClient({ profiles, meId, isMaster, canManagePw, canCreate }: { profiles: P[]; meId: string; isMaster: boolean; canManagePw: boolean; canCreate: boolean }) {
   const t = useTranslations('admin');

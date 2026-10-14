@@ -21,7 +21,8 @@
     "vacations": "休假管理",
     "camp_pro": "Camp Pro",
     "finance": "损益",
-    "daily-report": "每日工作汇报"
+    "daily-report": "每日工作汇报",
+    "commissions": "咨询业绩奖金"
   },
   "common": {
     "save": "保存",
@@ -120,7 +121,8 @@
     "history_6m": "最近6个月",
     "manual_adjust": "手动调整",
     "save_recompute": "保存并重算",
-    "send_email": "邮件发送PDF"
+    "send_email": "邮件发送PDF",
+    "commission": "业绩奖金"
   },
   "absence": {
     "title": "预约请假记录",
@@ -178,7 +180,14 @@
     "sort_school": "学校",
     "sort_created": "最新",
     "enrollments": "在读课程",
-    "no_enrollment": "暂无在读课程"
+    "no_enrollment": "暂无在读课程",
+    "counselor": "负责咨询主任",
+    "counselor_none": "无",
+    "counselor_former": "（原负责人）",
+    "program_type": "国际班/本地班",
+    "program_international": "国际班",
+    "program_local": "本地班",
+    "enrolled_date": "注册日期"
   },
   "klass": {
     "add": "添加课程",
@@ -250,7 +259,21 @@
     "save": "保存",
     "cancel": "取消",
     "google_calendar_id": "谷歌日历ID (教师)",
-    "work_days": "工作日"
+    "work_days": "工作日",
+    "is_counselor": "咨询主任（自动计算奖金）",
+    "hire_date": "入职日期",
+    "probation_months": "试用期（月）",
+    "goal_mode": "目标达成标准",
+    "goal_mode_separate": "国际班/本地班各自N名",
+    "goal_mode_combined": "合计N名（按较多一方发放）",
+    "program_international": "国际班",
+    "program_local": "本地班",
+    "cc_new": "新注册（每名）",
+    "cc_goal": "月度目标",
+    "cc_people": "名 达成奖金",
+    "cc_retention": "长期在读",
+    "cc_months": "个月以上（每名）",
+    "counselor_hint": "基本工资请填写在“月固定底薪”（RM 4,000），油费填写在“补贴”（RM 300）。奖金自试用期结束日起适用，并自动计入每月工资单。"
   },
   "timetable": {
     "print": "打印",
@@ -337,5 +360,30 @@
     "auto": "自动",
     "memo": "备注",
     "no_expense": "暂无支出"
+  },
+  "commission": {
+    "title": "咨询主任业绩奖金",
+    "view": "查看",
+    "page_hint": "生成工资单时会自动计入相同金额。",
+    "no_counselors": "暂无咨询主任。请在 管理员管理 → 薪资设置 中勾选“咨询主任”。",
+    "counselor": "咨询主任",
+    "probation": "试用期",
+    "no_hire_date": "未填写入职日期",
+    "in_probation": "试用期中（{date}起计奖金）",
+    "probation_end": "{date}起适用",
+    "new_intl": "新注册·国际班",
+    "new_local": "新注册·本地班",
+    "new_pay": "新注册合计",
+    "goal": "目标奖金",
+    "goal_intl": "目标奖金（国际班）",
+    "goal_local": "目标奖金（本地班）",
+    "retention": "长期在读",
+    "total": "奖金合计",
+    "grand_total": "总计",
+    "intl": "国际班",
+    "local": "本地班",
+    "inactive": "停用",
+    "excluded_probation": "因试用期未计: {n}",
+    "missing_type": "未填写国际班/本地班，未计入: {names}"
   }
 }

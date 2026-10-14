@@ -14,6 +14,7 @@ const ACCESS: Record<string, Role[]> = {
   holidays:  ['master', 'admin', 'admin_b', 'teacher'],
   invoices:  ['master', 'admin', 'admin_b'],
   payslips:  ['master', 'admin'],   // 관리자B 제외
+  commissions: ['master', 'admin'], // 상담실장 성과급 (급여와 동일 권한)
   vacations: ['master', 'admin', 'admin_b'],
   admins:    ['master', 'admin', 'admin_b'],
   pricing:   ['master', 'admin', 'admin_b'],

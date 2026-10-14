@@ -4,6 +4,7 @@
 import { createAdminClient } from './supabase-admin';
 import { round2 } from './billing';
 import { computePayroll, type PayrollConfig, type EmploymentType } from './payroll';
+import { commissionForProfileId, commissionSnapshot, type CommissionSnapshot } from './commission-service';
 
 interface LineItem { class_id: string; class_name: string; sessions: number; rate_per_session: number; amount: number; }
 
@@ -50,13 +51,14 @@ async function classSessionLines(db: any, teacherId: string, year: number, month
 
 async function persist(db: any, teacherId: string, year: number, month: number,
   lineItems: LineItem[], pr: ReturnType<typeof computePayroll>,
-  meta: { employmentType: string; allowance: number; manualAdjust: number; sessionPay: number }) {
+  meta: { employmentType: string; allowance: number; manualAdjust: number; sessionPay: number; commissionDetail: CommissionSnapshot | null }) {
   const totalSessions = lineItems.reduce((s, li) => s + li.sessions, 0);
   const { data: slip, error } = await db.from('payslips').upsert({
     teacher_id: teacherId, period_year: year, period_month: month, status: 'draft',
     total_sessions: totalSessions, total_amount: meta.sessionPay,
     employment_type: meta.employmentType, base_pay: pr.basePay,
     allowance: meta.allowance, manual_adjust: meta.manualAdjust,
+    commission: pr.commission, commission_detail: meta.commissionDetail,
     employee_deductions: pr.employeeDeductions, employer_contributions: pr.employerContributions,
     total_employee_deduction: pr.totalEmployeeDeduction,
     total_employer_contribution: pr.totalEmployerContribution, net_pay: pr.netPay,
@@ -86,6 +88,10 @@ export async function generatePayslipForTeacher(teacherId: string, year: number,
   const allowance = existing ? Number(existing.allowance) : pay.allowance;
   const manualAdjust = existing ? Number(existing.manual_adjust) : 0;
 
+  // 상담실장 성과급 (상담실장이 아니면 null → 0)
+  const cm = await commissionForProfileId(db, teacherId, year, month);
+  const commission = cm ? cm.total : 0;
+
   // 스킵 조건: 고정급이 아니고, 담당 반도 없고, 지원금·보정도 없을 때만.
   //  - salaried_fixed → 무조건 생성 (고정급이므로 회차 무관)
   //  - freelancer/fulltime + 담당 반 있음 → 생성 (회차 0이면 RM 0 명세서)
@@ -93,16 +99,18 @@ export async function generatePayslipForTeacher(teacherId: string, year: number,
   if (pay.employmentType !== 'salaried_fixed'
       && !hasAssignedClass
       && allowance === 0
-      && manualAdjust === 0) {
+      && manualAdjust === 0
+      && commission === 0) {
     return null;
   }
 
   const pr = computePayroll({
     employmentType: pay.employmentType, sessionPay, fixedBaseSalary: pay.fixedBaseSalary,
-    allowance, manualAdjust, config: pay.config,
+    allowance, manualAdjust, commission, config: pay.config,
   });
   const id = await persist(db, teacherId, year, month, lineItems, pr,
-    { employmentType: pay.employmentType, allowance, manualAdjust, sessionPay });
+    { employmentType: pay.employmentType, allowance, manualAdjust, sessionPay,
+      commissionDetail: cm ? commissionSnapshot(cm) : null });
   return { teacherId, payslipId: id, netPay: pr.netPay };
 }
 
@@ -137,12 +145,16 @@ export async function recomputePayslip(
   const sessionPay = round2(lineItems.reduce((s, li) => s + li.amount, 0));
   const allowance = Number(slip.allowance);
   const manualAdjust = round2(opts.manualAdjust);
+  // 성과급은 학생 데이터 기준으로 다시 계산 (등록일/반 구분 수정 반영)
+  const cm = await commissionForProfileId(db, slip.teacher_id, slip.period_year, slip.period_month);
+  const commission = cm ? cm.total : 0;
 
   const pr = computePayroll({
     employmentType: pay.employmentType, sessionPay, fixedBaseSalary: pay.fixedBaseSalary,
-    allowance, manualAdjust, config: pay.config,
+    allowance, manualAdjust, commission, config: pay.config,
   });
   await persist(db, slip.teacher_id, slip.period_year, slip.period_month, lineItems, pr,
-    { employmentType: pay.employmentType, allowance, manualAdjust, sessionPay });
+    { employmentType: pay.employmentType, allowance, manualAdjust, sessionPay,
+      commissionDetail: cm ? commissionSnapshot(cm) : null });
   return { netPay: pr.netPay };
 }

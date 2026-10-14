@@ -106,6 +106,8 @@ export interface PayslipPdfData {
   items: { className: string; sessions: number; ratePerSession: number; amount: number }[];
   totalSessions: number; basePay: number;
   allowance: number; manualAdjust: number;
+  commission?: number;
+  commissionLines?: { label: string; amount: number }[];
   employeeDeductions: { label: string; amount: number }[];
   employerContributions: { label: string; amount: number }[];
   netPay: number;
@@ -144,6 +146,16 @@ function PayslipDoc({ d }: { d: PayslipPdfData }) {
           <Text style={s.totalLabel}>기본급</Text>
           <Text style={s.totalVal}>{d.currency} {d.basePay.toFixed(2)}</Text>
         </View>
+        {d.commission ? (
+          <View style={s.totalRow}><Text style={s.totalLabel}>성과급 (Commission)</Text>
+            <Text style={s.totalVal}>{d.currency} {d.commission.toFixed(2)}</Text></View>
+        ) : null}
+        {(d.commissionLines ?? []).map((cl, i) => (
+          <View style={s.totalRow} key={`cl${i}`}>
+            <Text style={[s.totalLabel, { color: '#64748b' }]}>· {cl.label}</Text>
+            <Text style={[s.totalVal, { color: '#64748b' }]}>{d.currency} {cl.amount.toFixed(2)}</Text>
+          </View>
+        ))}
         {d.allowance ? (
           <View style={s.totalRow}><Text style={s.totalLabel}>지원금</Text>
             <Text style={s.totalVal}>{d.currency} {d.allowance.toFixed(2)}</Text></View>

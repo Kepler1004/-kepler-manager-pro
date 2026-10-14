@@ -9,7 +9,7 @@ export default async function AdminsPage() {
 
   const db = await createClient();
   const { data: profiles } = await db
-    .from('profiles').select('id, full_name, email, role, is_active, phone, employment_type, fixed_base_salary, tax_no, ic_no, epf_no, bank_account, allowance, google_calendar_id, work_days, payroll_config')
+    .from('profiles').select('id, full_name, email, role, is_active, phone, employment_type, fixed_base_salary, tax_no, ic_no, epf_no, bank_account, allowance, google_calendar_id, work_days, payroll_config, is_counselor, hire_date, probation_months, commission_config')
     .order('created_at', { ascending: true });
 
   return (

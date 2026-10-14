@@ -6,6 +6,20 @@ import { getCurrentProfile, isStaff } from '@/lib/guards';
 
 export const runtime = 'nodejs';
 
+// 성과급 내역 → PDF 하위 줄 (0원 항목 생략)
+function commissionLines(d: any): { label: string; amount: number }[] {
+  if (!d || d.in_probation) return [];
+  const sum = (rows: any[]) => (rows ?? []).reduce((a: number, r: any) => a + Number(r.amount), 0);
+  const lines = [
+    { label: `신규 등록 국제반 ${(d.new_intl ?? []).length}명`, amount: sum(d.new_intl) },
+    { label: `신규 등록 로컬반 ${(d.new_local ?? []).length}명`, amount: sum(d.new_local) },
+    { label: '목표 달성 보너스 (국제반)', amount: Number(d.goal_intl ?? 0) },
+    { label: '목표 달성 보너스 (로컬반)', amount: Number(d.goal_local ?? 0) },
+    { label: `장기 유지 ${(d.retention ?? []).length}명`, amount: Number(d.retention_pay ?? 0) },
+  ];
+  return lines.filter((l) => l.amount !== 0);
+}
+
 async function sendOne(db: any, slip: any): Promise<boolean> {
   const teacher = slip.profiles;
   if (!teacher?.email) return false;
@@ -18,6 +32,8 @@ async function sendOne(db: any, slip: any): Promise<boolean> {
     })),
     basePay: Number(slip.base_pay), allowance: Number(slip.allowance),
     manualAdjust: Number(slip.manual_adjust),
+    commission: Number(slip.commission ?? 0),
+    commissionLines: commissionLines(slip.commission_detail),
     employeeDeductions: slip.employee_deductions ?? [],
     employerContributions: slip.employer_contributions ?? [],
     totalSessions: slip.total_sessions, netPay: Number(slip.net_pay),

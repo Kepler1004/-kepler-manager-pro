@@ -9,7 +9,7 @@ const NAV = [
   ['dashboard', '/dashboard'], ['daily-report', '/daily-report'],
   ['students', '/students'], ['classes', '/classes'],
   ['timetable', '/timetable'], ['absences', '/absences'], ['holidays', '/holidays'],
-  ['invoices', '/invoices'], ['finance', '/finance'], ['payslips', '/payslips'], ['vacations', '/vacations'],
+  ['invoices', '/invoices'], ['finance', '/finance'], ['payslips', '/payslips'], ['commissions', '/commissions'], ['vacations', '/vacations'],
   ['admins', '/admins'],
 ] as const;
 

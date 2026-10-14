@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { updateTeacherPayroll } from '@/app/[locale]/(app)/admins/actions';
+import { normalizeConfig } from '@/lib/commission';
 
 type Cfg = Record<string, { type: string; value: number } | undefined>;
 export interface TeacherP {
   id: string; employment_type?: string; tax_no?: string | null; ic_no?: string | null;
   epf_no?: string | null; bank_account?: string | null; allowance?: number; fixed_base_salary?: number; google_calendar_id?: string | null; work_days?: number[] | null; payroll_config?: Cfg;
+  is_counselor?: boolean | null; hire_date?: string | null; probation_months?: number | null; commission_config?: unknown;
 }
 
 const DEDUCTIONS: [string, string][] = [
@@ -20,6 +22,8 @@ export default function TeacherPayrollForm({ teacher, onDone }: { teacher: Teach
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const cfg = teacher.payroll_config ?? {};
+  const cc = normalizeConfig(teacher.commission_config);
+  const [isCounselor, setIsCounselor] = useState(!!teacher.is_counselor);
 
   async function action(formData: FormData) {
     setBusy(true); setErr('');
@@ -85,6 +89,50 @@ export default function TeacherPayrollForm({ teacher, onDone }: { teacher: Teach
           })}
         </div>
         <p className="mt-1 text-xs text-slate-400">{t('percent_base')}</p>
+      </div>
+
+      <div className="rounded-lg border border-amber-200 bg-amber-50/50 p-3">
+        <label className="flex items-center gap-2 text-sm font-medium">
+          <input type="checkbox" name="is_counselor" value="true" checked={isCounselor}
+            onChange={(e) => setIsCounselor(e.target.checked)} />
+          {t('is_counselor')}
+        </label>
+        {isCounselor && (
+          <div className="mt-3 space-y-3">
+            <div className="grid grid-cols-3 gap-3">
+              <label className="block"><span className="lbl">{t('hire_date')} *</span>
+                <input name="hire_date" type="date" required defaultValue={teacher.hire_date ?? ''} className="inp w-full" /></label>
+              <label className="block"><span className="lbl">{t('probation_months')}</span>
+                <input name="probation_months" type="number" min={0} max={24} step={1} defaultValue={teacher.probation_months ?? 3} className="inp w-full" /></label>
+              <label className="block"><span className="lbl">{t('goal_mode')}</span>
+                <select name="cc_goalMode" defaultValue={cc.goalMode} className="inp w-full">
+                  <option value="separate">{t('goal_mode_separate')}</option>
+                  <option value="combined">{t('goal_mode_combined')}</option>
+                </select></label>
+            </div>
+            <table className="w-full text-sm">
+              <thead className="text-left text-xs text-slate-500">
+                <tr><th className="py-1"></th><th className="py-1">{t('program_international')} (RM)</th><th className="py-1">{t('program_local')} (RM)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td className="py-1 text-xs text-slate-600">{t('cc_new')}</td>
+                  <td><input name="cc_intlNew" type="number" min={0} step="0.01" defaultValue={cc.intlNew} className="inp w-28" /></td>
+                  <td><input name="cc_localNew" type="number" min={0} step="0.01" defaultValue={cc.localNew} className="inp w-28" /></td></tr>
+                <tr><td className="py-1 text-xs text-slate-600">
+                    {t('cc_goal')} <input name="cc_goalThreshold" type="number" min={1} step={1} defaultValue={cc.goalThreshold} className="inp ml-1 w-16" /> {t('cc_people')}
+                  </td>
+                  <td><input name="cc_intlGoal" type="number" min={0} step="0.01" defaultValue={cc.intlGoal} className="inp w-28" /></td>
+                  <td><input name="cc_localGoal" type="number" min={0} step="0.01" defaultValue={cc.localGoal} className="inp w-28" /></td></tr>
+                <tr><td className="py-1 text-xs text-slate-600">
+                    {t('cc_retention')} <input name="cc_retentionMonths" type="number" min={1} step={1} defaultValue={cc.retentionMonths} className="inp ml-1 w-16" /> {t('cc_months')}
+                  </td>
+                  <td><input name="cc_intlRetention" type="number" min={0} step="0.01" defaultValue={cc.intlRetention} className="inp w-28" /></td>
+                  <td><input name="cc_localRetention" type="number" min={0} step="0.01" defaultValue={cc.localRetention} className="inp w-28" /></td></tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-slate-500">{t('counselor_hint')}</p>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-3">

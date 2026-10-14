@@ -2,11 +2,11 @@
 import { Fragment, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import StudentForm, { type StudentRow } from '@/components/StudentForm';
+import StudentForm, { type StudentRow, type CounselorOption } from '@/components/StudentForm';
 import { Link } from '@/i18n/routing';
 import { deleteStudent } from './actions';
 
-export default function StudentsClient({ students, sort }: { students: StudentRow[]; sort: string }) {
+export default function StudentsClient({ students, sort, counselors }: { students: StudentRow[]; sort: string; counselors: CounselorOption[] }) {
   const t = useTranslations('student');
   const tc = useTranslations('common');
   const [adding, setAdding] = useState(false);
@@ -24,7 +24,7 @@ export default function StudentsClient({ students, sort }: { students: StudentRo
           + {t('add')}
         </button>
       )}
-      {adding && <StudentForm onDone={() => setAdding(false)} />}
+      {adding && <StudentForm counselors={counselors} onDone={() => setAdding(false)} />}
 
       <div className="flex items-center gap-1 text-sm">
         <span className="mr-1 text-slate-400">{t('sort_by')}:</span>
@@ -72,7 +72,7 @@ export default function StudentsClient({ students, sort }: { students: StudentRo
                 </tr>
                 {editId === s.id && (
                   <tr><td colSpan={6} className="bg-slate-50 px-4 py-3">
-                    <StudentForm initial={s} onDone={() => setEditId(null)} />
+                    <StudentForm initial={s} counselors={counselors} onDone={() => setEditId(null)} />
                   </td></tr>
                 )}
               </Fragment>

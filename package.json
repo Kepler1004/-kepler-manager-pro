@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "tsx tests/engine.test.ts"
+    "test": "tsx tests/engine.test.ts",
+    "test:commission": "tsx tests/commission.test.ts"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.1.5",

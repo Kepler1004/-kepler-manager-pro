@@ -21,7 +21,8 @@
     "vacations": "휴가 관리",
     "camp_pro": "Camp Pro",
     "finance": "손익",
-    "daily-report": "일일 업무 작성"
+    "daily-report": "일일 업무 작성",
+    "commissions": "상담 성과급"
   },
   "common": {
     "save": "저장",
@@ -120,7 +121,8 @@
     "history_6m": "최근 6개월",
     "manual_adjust": "수동 보정",
     "save_recompute": "저장·재계산",
-    "send_email": "이메일로 PDF 발송"
+    "send_email": "이메일로 PDF 발송",
+    "commission": "성과급"
   },
   "absence": {
     "title": "사전 결석 기록",
@@ -178,7 +180,14 @@
     "sort_school": "학교순",
     "sort_created": "등록일순",
     "enrollments": "수강 정보",
-    "no_enrollment": "수강 중인 수업 없음"
+    "no_enrollment": "수강 중인 수업 없음",
+    "counselor": "담당 상담실장",
+    "counselor_none": "없음",
+    "counselor_former": "(이전 담당자)",
+    "program_type": "국제반/로컬반",
+    "program_international": "국제반",
+    "program_local": "로컬반",
+    "enrolled_date": "등록일"
   },
   "klass": {
     "add": "수업 추가",
@@ -250,7 +259,21 @@
     "save": "저장",
     "cancel": "취소",
     "google_calendar_id": "구글 캘린더 ID (선생님)",
-    "work_days": "근무 요일"
+    "work_days": "근무 요일",
+    "is_counselor": "상담실장 (성과급 자동 계산)",
+    "hire_date": "입사일",
+    "probation_months": "수습 기간 (개월)",
+    "goal_mode": "목표 달성 기준",
+    "goal_mode_separate": "국제반·로컬반 각각 N명",
+    "goal_mode_combined": "합계 N명 (많은 쪽 기준 지급)",
+    "program_international": "국제반",
+    "program_local": "로컬반",
+    "cc_new": "신규 등록 (건당)",
+    "cc_goal": "월간 목표",
+    "cc_people": "명 달성 보너스",
+    "cc_retention": "장기 유지",
+    "cc_months": "개월 이상 (1인당)",
+    "counselor_hint": "기본급은 위 \"월 고정 기본급\"(RM 4,000), 주유비는 \"지원금\"(RM 300)에 입력하세요. 성과급은 수습 종료일부터 적용되고, 매월 급여 명세서에 자동 합산됩니다."
   },
   "timetable": {
     "print": "인쇄",
@@ -337,5 +360,30 @@
     "auto": "자동",
     "memo": "메모",
     "no_expense": "지출 없음"
+  },
+  "commission": {
+    "title": "상담실장 성과급",
+    "view": "조회",
+    "page_hint": "급여 명세서 생성 시 같은 계산이 자동 합산됩니다.",
+    "no_counselors": "상담실장이 없습니다. 관리자 관리 → 급여 설정에서 \"상담실장\"을 체크하세요.",
+    "counselor": "상담실장",
+    "probation": "수습",
+    "no_hire_date": "입사일 미입력",
+    "in_probation": "수습 중 (성과급 {date}부터)",
+    "probation_end": "{date}부터 적용",
+    "new_intl": "신규 국제반",
+    "new_local": "신규 로컬반",
+    "new_pay": "신규 등록 합계",
+    "goal": "목표 보너스",
+    "goal_intl": "목표 달성 (국제반)",
+    "goal_local": "목표 달성 (로컬반)",
+    "retention": "장기 유지",
+    "total": "성과급 합계",
+    "grand_total": "전체 합계",
+    "intl": "국제반",
+    "local": "로컬반",
+    "inactive": "비활성",
+    "excluded_probation": "수습 기간이라 제외된 건: {n}",
+    "missing_type": "국제반/로컬반 미입력으로 계산에서 빠진 학생: {names}"
   }
 }

@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache';
 import { createAdminClient } from '@/lib/supabase-admin';
 import { getCurrentProfile, isStaff } from '@/lib/guards';
+import { isDate, normalizeConfig } from '@/lib/commission';
 
 async function ensureMaster() {
   const me = await getCurrentProfile();
@@ -71,7 +72,25 @@ export async function updateTeacherPayroll(formData: FormData) {
   for (const k of ['pcb','epfEmployee','epfEmployer','socsoEmployee','socsoEmployer','eisEmployee','eisEmployer']) {
     const v = setting(k); if (v) payroll_config[k] = v;
   }
+  // 상담실장 성과급 설정
+  const isCounselor = formData.get('is_counselor') === 'true';
+  const counselorFields: Record<string, unknown> = { is_counselor: isCounselor };
+  if (isCounselor) {
+    const hire = g('hire_date');
+    if (!hire || !isDate(hire)) throw new Error('상담실장은 입사일(YYYY-MM-DD)이 필요합니다.');
+    const pm = Number(formData.get('probation_months') ?? 3);
+    if (!Number.isInteger(pm) || pm < 0 || pm > 24) throw new Error('수습 기간은 0~24개월 정수여야 합니다.');
+    const raw: Record<string, unknown> = {};
+    for (const k of ['intlNew','localNew','goalThreshold','goalMode','intlGoal','localGoal','retentionMonths','intlRetention','localRetention']) {
+      const v = formData.get(`cc_${k}`); if (v !== null && v !== '') raw[k] = k === 'goalMode' ? String(v) : Number(v);
+    }
+    counselorFields.hire_date = hire;
+    counselorFields.probation_months = pm;
+    counselorFields.commission_config = normalizeConfig(raw);
+  }
+
   const { error } = await admin.from('profiles').update({
+    ...counselorFields,
     employment_type: g('employment_type') ?? 'freelancer',
     fixed_base_salary: Number(formData.get('fixed_base_salary') ?? 0),
     tax_no: g('tax_no'), ic_no: g('ic_no'), epf_no: g('epf_no'), bank_account: g('bank_account'),

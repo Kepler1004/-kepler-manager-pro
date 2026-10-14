@@ -7,11 +7,19 @@ type Item = { id: string; class_id: string; class_name: string; sessions: number
 type Slip = {
   id: string; teacher_id: string; period_year: number; period_month: number; currency: string; status: string;
   base_pay: number; allowance: number; manual_adjust: number; net_pay: number;
+  commission?: number | null; commission_detail?: CommissionDetail | null;
   total_employee_deduction: number; total_employer_contribution: number;
   employee_deductions: { label: string; amount: number }[];
   employer_contributions: { label: string; amount: number }[];
   payslip_items: Item[];
   profiles: { full_name: string; email: string; employment_type: string; tax_no?: string; ic_no?: string; epf_no?: string } | null;
+};
+type CLine = { name: string; date: string; amount: number; program_type?: string };
+type CommissionDetail = {
+  probation_end: string | null; in_probation: boolean;
+  new_intl: CLine[]; new_local: CLine[]; new_pay: number;
+  goal_intl: number; goal_local: number; goal_pay: number;
+  retention: CLine[]; retention_pay: number; missing_program_type: string[]; total: number;
 };
 type Hist = { id: string; period_year: number; period_month: number; net_pay: number; status: string; currency: string };
 
@@ -125,6 +133,7 @@ export default function PayslipDetailClient({ slip, history }: { slip: Slip; his
 
         <div className="mt-5 space-y-1 border-t pt-3 text-right text-sm">
           <div>{t('base_pay')}: {slip.currency} {Number(slip.base_pay).toFixed(2)}</div>
+          {Number(slip.commission) ? <div>{t('commission')}: {slip.currency} {Number(slip.commission).toFixed(2)}</div> : null}
           {Number(slip.allowance) ? <div>{t('allowance')}: {slip.currency} {Number(slip.allowance).toFixed(2)}</div> : null}
           {Number(slip.manual_adjust) ? <div>{t('manual_adjust')}: {slip.currency} {Number(slip.manual_adjust).toFixed(2)}</div> : null}
           {(slip.employee_deductions ?? []).map((d, i) => (
@@ -132,6 +141,8 @@ export default function PayslipDetailClient({ slip, history }: { slip: Slip; his
           ))}
           <div className="text-lg font-bold">{t('net_pay')}: {slip.currency} {Number(slip.net_pay).toFixed(2)}</div>
         </div>
+
+        {slip.commission_detail && <CommissionBox d={slip.commission_detail} currency={slip.currency} />}
 
         {(slip.employer_contributions ?? []).length > 0 && (
           <div className="mt-4 border-t pt-3 text-right text-xs text-slate-500">
@@ -142,6 +153,39 @@ export default function PayslipDetailClient({ slip, history }: { slip: Slip; his
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function CommissionBox({ d, currency }: { d: CommissionDetail; currency: string }) {
+  const t = useTranslations('commission');
+  const fmt = (n: number) => `${currency} ${Number(n).toFixed(2)}`;
+  const List = ({ rows }: { rows: CLine[] }) => rows.length ? (
+    <ul className="ml-4 list-disc text-xs text-slate-500">
+      {rows.map((r, i) => <li key={i}>{r.name} · {r.date} · {fmt(r.amount)}</li>)}
+    </ul>
+  ) : null;
+  return (
+    <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50/50 p-3 text-sm">
+      <div className="mb-1 font-medium">{t('title')}</div>
+      {d.in_probation ? (
+        <div className="text-xs text-slate-500">{t('in_probation', { date: d.probation_end ?? '-' })}</div>
+      ) : (
+        <div className="space-y-1">
+          <div>{t('new_intl')}: {d.new_intl.length} · {fmt(d.new_intl.reduce((a, r) => a + r.amount, 0))}</div>
+          <List rows={d.new_intl} />
+          <div>{t('new_local')}: {d.new_local.length} · {fmt(d.new_local.reduce((a, r) => a + r.amount, 0))}</div>
+          <List rows={d.new_local} />
+          {d.goal_intl ? <div>{t('goal_intl')}: {fmt(d.goal_intl)}</div> : null}
+          {d.goal_local ? <div>{t('goal_local')}: {fmt(d.goal_local)}</div> : null}
+          <div>{t('retention')}: {d.retention.length} · {fmt(d.retention_pay)}</div>
+          <List rows={d.retention} />
+          <div className="font-medium">{t('total')}: {fmt(d.total)}</div>
+        </div>
+      )}
+      {d.missing_program_type?.length ? (
+        <div className="mt-2 text-xs text-rose-600">{t('missing_type', { names: d.missing_program_type.join(', ') })}</div>
+      ) : null}
     </div>
   );
 }

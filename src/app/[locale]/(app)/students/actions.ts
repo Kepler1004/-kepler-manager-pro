@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase-server';
+import { isDate, todayMY } from '@/lib/commission';
 
 function parse(formData: FormData) {
   const get = (k: string) => {
@@ -16,14 +17,23 @@ function parse(formData: FormData) {
     guardian_email: get('guardian_email') ?? '',
     phone: get('phone'),
     status: get('status') ?? 'active',
+    counselor_id: get('counselor_id'),
+    program_type: get('program_type') === 'international' || get('program_type') === 'local' ? get('program_type') : null,
+    enrolled_date: get('enrolled_date'),
   };
+}
+
+function checkDate(row: { enrolled_date: string | null }) {
+  if (row.enrolled_date !== null && !isDate(row.enrolled_date)) throw new Error('등록일 형식이 올바르지 않습니다 (YYYY-MM-DD).');
 }
 
 export async function createStudent(formData: FormData) {
   const db = await createClient();
   const row = parse(formData);
   if (!row.name || !row.guardian_email) return;
-  const { error } = await db.from('students').insert(row);
+  checkDate(row);
+  // 등록일 미입력 시 오늘(말레이시아)로 기록 → 신규 등록 성과급 기준일
+  const { error } = await db.from('students').insert({ ...row, enrolled_date: row.enrolled_date ?? todayMY() });
   if (error) throw new Error(error.message);
   revalidatePath('/students');
 }
@@ -32,6 +42,7 @@ export async function updateStudent(formData: FormData) {
   const db = await createClient();
   const id = String(formData.get('id'));
   const row = parse(formData);
+  checkDate(row);
   const { error } = await db.from('students').update(row).eq('id', id);
   if (error) throw new Error(error.message);
   revalidatePath('/students');

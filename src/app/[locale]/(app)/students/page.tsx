@@ -19,13 +19,15 @@ export default async function StudentsPage({ searchParams }: { searchParams: Pro
   const db = await createClient();
   const { data: students } = await db
     .from('students')
-    .select('id, name, name_en, school, grade, guardian_name, guardian_email, phone, status')
+    .select('id, name, name_en, school, grade, guardian_name, guardian_email, phone, status, counselor_id, program_type, enrolled_date')
     .order(col, { ascending: asc, nullsFirst: false });
+  const { data: counselors } = await db.from('profiles')
+    .select('id, full_name, email').eq('is_counselor', true).order('full_name');
 
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">{t('nav.students')}</h1>
-      <StudentsClient students={students ?? []} sort={sort} />
+      <StudentsClient students={students ?? []} sort={sort} counselors={counselors ?? []} />
     </div>
   );
 }

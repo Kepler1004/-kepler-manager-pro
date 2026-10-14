@@ -7,9 +7,12 @@ export interface StudentRow {
   id?: string; name?: string; name_en?: string | null; school?: string | null;
   grade?: string | null; guardian_name?: string | null; guardian_email?: string;
   phone?: string | null; status?: string | null;
+  counselor_id?: string | null; program_type?: string | null; enrolled_date?: string | null;
 }
+export interface CounselorOption { id: string; full_name: string | null; email: string | null; }
 
-export default function StudentForm({ initial, onDone }: { initial?: StudentRow; onDone?: () => void }) {
+export default function StudentForm({ initial, onDone, counselors = [] }:
+  { initial?: StudentRow; onDone?: () => void; counselors?: CounselorOption[] }) {
   const t = useTranslations('student');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -52,6 +55,27 @@ export default function StudentForm({ initial, onDone }: { initial?: StudentRow;
           <option value="inactive">{t('inactive')}</option>
         </select>
       </label>
+      <label className="block">
+        <span className="mb-1 block text-xs text-slate-500">{t('counselor')}</span>
+        <select name="counselor_id" defaultValue={initial?.counselor_id ?? ''}
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+          <option value="">{t('counselor_none')}</option>
+          {counselors.map((c) => <option key={c.id} value={c.id}>{c.full_name || c.email}</option>)}
+          {initial?.counselor_id && !counselors.some((c) => c.id === initial.counselor_id) && (
+            <option value={initial.counselor_id}>{t('counselor_former')}</option>
+          )}
+        </select>
+      </label>
+      <label className="block">
+        <span className="mb-1 block text-xs text-slate-500">{t('program_type')}</span>
+        <select name="program_type" defaultValue={initial?.program_type ?? ''}
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+          <option value="">-</option>
+          <option value="international">{t('program_international')}</option>
+          <option value="local">{t('program_local')}</option>
+        </select>
+      </label>
+      <Field name="enrolled_date" label={t('enrolled_date')} type="date" defaultValue={initial?.enrolled_date ?? ''} />
       <div className="col-span-2 flex items-center gap-3">
         <button disabled={busy}
           className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50">
