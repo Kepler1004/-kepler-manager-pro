@@ -87,6 +87,10 @@ export async function updateTeacherPayroll(formData: FormData) {
     counselorFields.hire_date = hire;
     counselorFields.probation_months = pm;
     counselorFields.commission_config = normalizeConfig(raw);
+    const rg = g('recruit_group');
+    counselorFields.recruit_group = rg === 'korean' || rg === 'non_korean' ? rg : null;
+  } else {
+    counselorFields.recruit_group = null; // 상담실장 해제 시 모집 담당군도 함께 해제
   }
 
   const { error } = await admin.from('profiles').update({

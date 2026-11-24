@@ -45,12 +45,13 @@ export default function StudentsClient({ students, sort, counselors }: { student
               <th className="px-4 py-2">{t('grade')}</th>
               <th className="px-4 py-2">{t('guardian_email')}</th>
               <th className="px-4 py-2">{t('status')}</th>
+              <th className="px-4 py-2">{t('nationality')}</th>
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
           <tbody>
             {students.length === 0 && (
-              <tr><td colSpan={6} className="px-4 py-8 text-center text-slate-400">{t('empty')}</td></tr>
+              <tr><td colSpan={7} className="px-4 py-8 text-center text-slate-400">{t('empty')}</td></tr>
             )}
             {students.map((s) => (
               <Fragment key={s.id}>
@@ -60,6 +61,10 @@ export default function StudentsClient({ students, sort, counselors }: { student
                   <td className="px-4 py-2">{s.grade}</td>
                   <td className="px-4 py-2">{s.guardian_email}</td>
                   <td className="px-4 py-2">{s.status}</td>
+                  <td className="px-4 py-2">
+                    {s.nationality === 'korean' ? t('nationality_korean')
+                      : s.nationality === 'non_korean' ? t('nationality_non_korean') : '-'}
+                  </td>
                   <td className="px-4 py-2 text-right">
                     <button onClick={() => setEditId(editId === s.id ? null : s.id!)}
                       className="mr-3 text-indigo-600">{tc('edit')}</button>
@@ -71,7 +76,7 @@ export default function StudentsClient({ students, sort, counselors }: { student
                   </td>
                 </tr>
                 {editId === s.id && (
-                  <tr><td colSpan={6} className="bg-slate-50 px-4 py-3">
+                  <tr><td colSpan={7} className="bg-slate-50 px-4 py-3">
                     <StudentForm initial={s} counselors={counselors} onDone={() => setEditId(null)} />
                   </td></tr>
                 )}

@@ -187,7 +187,10 @@
     "program_type": "국제반/로컬반",
     "program_international": "국제반",
     "program_local": "로컬반",
-    "enrolled_date": "등록일"
+    "enrolled_date": "등록일",
+    "nationality": "국적",
+    "nationality_korean": "한국인",
+    "nationality_non_korean": "비한국인"
   },
   "klass": {
     "add": "수업 추가",
@@ -273,7 +276,12 @@
     "cc_people": "명 달성 보너스",
     "cc_retention": "장기 유지",
     "cc_months": "개월 이상 (1인당)",
-    "counselor_hint": "기본급은 위 \"월 고정 기본급\"(RM 4,000), 주유비는 \"지원금\"(RM 300)에 입력하세요. 성과급은 수습 종료일부터 적용되고, 매월 급여 명세서에 자동 합산됩니다."
+    "counselor_hint": "기본급은 위 \"월 고정 기본급\"(RM 4,000), 주유비는 \"지원금\"(RM 300)에 입력하세요. 성과급은 수습 종료일부터 적용되고, 매월 급여 명세서에 자동 합산됩니다.",
+    "recruit_group": "모집 담당 국적군 (학생 등록 시 자동 배정)",
+    "recruit_group_none": "지정 안 함",
+    "recruit_group_korean": "한국인 담당",
+    "recruit_group_non_korean": "비한국인 담당",
+    "recruit_group_hint": "학생 등록 화면에서 국적을 선택하면 이 설정에 맞는 상담실장이 담당 상담실장으로 자동 제안됩니다 (관리자가 직접 바꿀 수 있음)."
   },
   "timetable": {
     "print": "인쇄",

@@ -187,7 +187,10 @@
     "program_type": "国际班/本地班",
     "program_international": "国际班",
     "program_local": "本地班",
-    "enrolled_date": "注册日期"
+    "enrolled_date": "注册日期",
+    "nationality": "国籍",
+    "nationality_korean": "韩国人",
+    "nationality_non_korean": "非韩国人"
   },
   "klass": {
     "add": "添加课程",
@@ -273,7 +276,12 @@
     "cc_people": "名 达成奖金",
     "cc_retention": "长期在读",
     "cc_months": "个月以上（每名）",
-    "counselor_hint": "基本工资请填写在“月固定底薪”（RM 4,000），油费填写在“补贴”（RM 300）。奖金自试用期结束日起适用，并自动计入每月工资单。"
+    "counselor_hint": "基本工资请填写在“月固定底薪”（RM 4,000），油费填写在“补贴”（RM 300）。奖金自试用期结束日起适用，并自动计入每月工资单。",
+    "recruit_group": "招生负责国籍组（学生登记时自动分配）",
+    "recruit_group_none": "未设置",
+    "recruit_group_korean": "负责韩国学生",
+    "recruit_group_non_korean": "负责非韩国学生",
+    "recruit_group_hint": "在学生登记表选择国籍时，系统会自动推荐符合此设置的咨询主任作为负责人（管理员仍可手动更改）。"
   },
   "timetable": {
     "print": "打印",

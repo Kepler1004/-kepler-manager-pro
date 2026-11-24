@@ -8,8 +8,9 @@ export interface StudentRow {
   grade?: string | null; guardian_name?: string | null; guardian_email?: string;
   phone?: string | null; status?: string | null;
   counselor_id?: string | null; program_type?: string | null; enrolled_date?: string | null;
+  nationality?: string | null;
 }
-export interface CounselorOption { id: string; full_name: string | null; email: string | null; }
+export interface CounselorOption { id: string; full_name: string | null; email: string | null; recruit_group?: string | null; }
 
 export default function StudentForm({ initial, onDone, counselors = [] }:
   { initial?: StudentRow; onDone?: () => void; counselors?: CounselorOption[] }) {
@@ -17,6 +18,15 @@ export default function StudentForm({ initial, onDone, counselors = [] }:
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const isEdit = !!initial?.id;
+  const [counselorId, setCounselorId] = useState(initial?.counselor_id ?? '');
+
+  // 국적 선택 시, 그 국적군을 담당하는 상담실장(profiles.recruit_group)을 자동으로 제안.
+  // (관리자가 이후 직접 다른 담당자로 바꿀 수 있음 — 자동 제안일 뿐, 강제 아님)
+  function onNationalityChange(value: string) {
+    if (value !== 'korean' && value !== 'non_korean') return;
+    const match = counselors.find((c) => c.recruit_group === value);
+    if (match) setCounselorId(match.id);
+  }
 
   async function action(formData: FormData) {
     setBusy(true); setErr('');
@@ -56,8 +66,18 @@ export default function StudentForm({ initial, onDone, counselors = [] }:
         </select>
       </label>
       <label className="block">
+        <span className="mb-1 block text-xs text-slate-500">{t('nationality')}</span>
+        <select name="nationality" defaultValue={initial?.nationality ?? ''}
+          onChange={(e) => onNationalityChange(e.target.value)}
+          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
+          <option value="">-</option>
+          <option value="korean">{t('nationality_korean')}</option>
+          <option value="non_korean">{t('nationality_non_korean')}</option>
+        </select>
+      </label>
+      <label className="block">
         <span className="mb-1 block text-xs text-slate-500">{t('counselor')}</span>
-        <select name="counselor_id" defaultValue={initial?.counselor_id ?? ''}
+        <select name="counselor_id" value={counselorId} onChange={(e) => setCounselorId(e.target.value)}
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm">
           <option value="">{t('counselor_none')}</option>
           {counselors.map((c) => <option key={c.id} value={c.id}>{c.full_name || c.email}</option>)}

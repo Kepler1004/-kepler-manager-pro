@@ -9,6 +9,7 @@ export interface TeacherP {
   id: string; employment_type?: string; tax_no?: string | null; ic_no?: string | null;
   epf_no?: string | null; bank_account?: string | null; allowance?: number; fixed_base_salary?: number; google_calendar_id?: string | null; work_days?: number[] | null; payroll_config?: Cfg;
   is_counselor?: boolean | null; hire_date?: string | null; probation_months?: number | null; commission_config?: unknown;
+  recruit_group?: string | null;
 }
 
 const DEDUCTIONS: [string, string][] = [
@@ -109,7 +110,14 @@ export default function TeacherPayrollForm({ teacher, onDone }: { teacher: Teach
                   <option value="separate">{t('goal_mode_separate')}</option>
                   <option value="combined">{t('goal_mode_combined')}</option>
                 </select></label>
+              <label className="block"><span className="lbl">{t('recruit_group')}</span>
+                <select name="recruit_group" defaultValue={teacher.recruit_group ?? ''} className="inp w-full">
+                  <option value="">{t('recruit_group_none')}</option>
+                  <option value="korean">{t('recruit_group_korean')}</option>
+                  <option value="non_korean">{t('recruit_group_non_korean')}</option>
+                </select></label>
             </div>
+            <p className="text-xs text-slate-500">{t('recruit_group_hint')}</p>
             <table className="w-full text-sm">
               <thead className="text-left text-xs text-slate-500">
                 <tr><th className="py-1"></th><th className="py-1">{t('program_international')} (RM)</th><th className="py-1">{t('program_local')} (RM)</th></tr>

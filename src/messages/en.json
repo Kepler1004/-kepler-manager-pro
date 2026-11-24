@@ -187,7 +187,10 @@
     "program_type": "International / Local",
     "program_international": "International",
     "program_local": "Local",
-    "enrolled_date": "Enrolment date"
+    "enrolled_date": "Enrolment date",
+    "nationality": "Nationality",
+    "nationality_korean": "Korean",
+    "nationality_non_korean": "Non-Korean"
   },
   "klass": {
     "add": "Add class",
@@ -273,7 +276,12 @@
     "cc_people": "students → bonus",
     "cc_retention": "Retention",
     "cc_months": "months+ (per student)",
-    "counselor_hint": "Enter base salary in \"Fixed monthly base\" (RM 4,000) and petrol in \"Allowance\" (RM 300). Commission starts after probation and is added to each monthly payslip automatically."
+    "counselor_hint": "Enter base salary in \"Fixed monthly base\" (RM 4,000) and petrol in \"Allowance\" (RM 300). Commission starts after probation and is added to each monthly payslip automatically.",
+    "recruit_group": "Recruitment group (auto-assign on student registration)",
+    "recruit_group_none": "Not set",
+    "recruit_group_korean": "Handles Korean students",
+    "recruit_group_non_korean": "Handles non-Korean students",
+    "recruit_group_hint": "When nationality is selected on the student form, the counselor matching this setting is auto-suggested as the counselor (admin can still change it)."
   },
   "timetable": {
     "print": "Print",

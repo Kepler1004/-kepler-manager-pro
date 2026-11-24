@@ -19,6 +19,7 @@ function parse(formData: FormData) {
     status: get('status') ?? 'active',
     counselor_id: get('counselor_id'),
     program_type: get('program_type') === 'international' || get('program_type') === 'local' ? get('program_type') : null,
+    nationality: get('nationality') === 'korean' || get('nationality') === 'non_korean' ? get('nationality') : null,
     enrolled_date: get('enrolled_date'),
   };
 }
